@@ -1,0 +1,18 @@
+{
+    "name": "jay/ahorcados",
+    "autoload": {
+        "psr-4": {
+            "Jay\\Ahorcados\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Denilson",
+            "email": "denilsontrillo@gmail.com"
+        }
+    ],
+    "require": {
+        "bramus/router": "~1.6",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
