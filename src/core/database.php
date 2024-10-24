@@ -1,4 +1,6 @@
 <?php
+// Patrón de diseño singleton
+
 namespace Jay\core;
 
 use PDO;
