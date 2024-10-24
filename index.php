@@ -15,5 +15,5 @@ ini_set("error_log", 'debug.log');
 # Es esencial para que funcione el proyecto
 require_once 'vendor/autoload.php';
 
-
-echo 'hola';
+# rutas
+require_once 'src/core/router.php';
