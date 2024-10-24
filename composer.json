@@ -2,7 +2,7 @@
     "name": "jay/ahorcados",
     "autoload": {
         "psr-4": {
-            "Jay\\Ahorcados\\": "src/"
+            "Jay\\": "src/"
         }
     },
     "authors": [
