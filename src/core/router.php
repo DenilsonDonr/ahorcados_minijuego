@@ -1,5 +1,7 @@
 <?php
 
+use Jay\controllers\home\HomeController;
+
 require_once __DIR__ . '/../middleware/login.php';
 
 $router = new \Bramus\Router\Router();
@@ -8,10 +10,11 @@ $dotenv->load();
 
 
 $router->get('/', function () {
-    echo 'principal';    
+    $controller = new HomeController();
+
 });
 
-// Aplicar middleware a la ruta protegida, Ejemplo
+// Aplicar middleware a la ruta 2protegida, Ejemplo
 // $router->before('GET', '/protected', 'authMiddleware');
 
 // $router->get('/protected', function() {
