@@ -7,5 +7,5 @@ const getWord = async () => {
         alert('No se pudo obtener la palabra', response);
     }
 
-    console.log(response);
+    startGame(response.palabra);
 };
