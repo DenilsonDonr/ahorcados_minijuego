@@ -23,6 +23,6 @@ class WordController
         // Obtenemos una palabra aleatoria desde el repositorio
         $word = $this->wordRepository->getRandomWord();
 
-        echo json_encode(['message' => $word]);
+        echo json_encode($word);
     }
 }
