@@ -6,9 +6,17 @@ let btnPlay = document.getElementById("btn-play");
 let game = document.getElementById("game");
 let btnBack = document.getElementById("btn-back");
 
+
+let switchToRegister = document.getElementById('switchToRegister');
+let switchToLogin = document.getElementById('switchToLogin');
+let loginSection = document.getElementById('loginSection');
+let registerSection = document.getElementById('registerSection');
+
+
 // Abrir el modal de inicio de sesion
 loginBtn.onclick = function () {
   modal.style.display = "block";
+  loginSection.classList.add('opacidad-modal');
   modalContent.classList.remove("close-animation"); // Quitar cualquier animacion de cierre previa
 };
 
@@ -66,11 +74,65 @@ closeModal.onclick = function () {
 };
 
 // Cerrar el modal al hacer clic fuera de el
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modalContent.classList.add("close-animation");
-    setTimeout(function () {
-      modal.style.display = "none";
-    }, 1800); // Tiempo de la animacion
-  }
+// window.onclick = function (event) {
+//   modalContent.addEventListener("animationend", function handleAnimationEnd() {
+//     if (event.target == modal) {
+//       modalContent.classList.add("close-animation");
+//       setTimeout(function () {
+//         modal.style.display = "none";
+//       }, 1800); // Tiempo de la animacion
+//     }
+//   });
+// };
+
+
+// Elementos del DOM
+
+
+// Función para cambiar a la vista de registro
+switchToRegister.onclick = function() {
+    registerSection.classList.add('opacidad-modal');
+    loginSection.classList.remove('section-active');
+    loginSection.classList.add('section-hidden');
+    registerSection.classList.remove('section-hidden');
+    registerSection.classList.add('section-active');
 };
+
+// Funcion para cambiar a la vista de inicio de sesion
+switchToLogin.onclick = function() {
+    registerSection.classList.remove('section-active');
+    registerSection.classList.add('section-hidden');
+    loginSection.classList.remove('section-hidden');
+    loginSection.classList.add('section-active');
+};
+
+
+
+// Agregamos validacion de entrada para solo letras
+document.querySelectorAll('.letter-input').forEach(input => {
+  input.addEventListener('input', function() {
+      // Permitir solo letras
+      if (this.value.length > 1 || !/^[a-zA-Z]$/.test(this.value)) {
+          this.value = ''; // Borra si no es una letra
+      }
+      
+      // Pasar al siguiente input si la letra es válida
+      let nextInput = this.nextElementSibling;
+      if (nextInput && this.value) {
+          nextInput.focus();
+      }
+  });
+
+  // Manejar la tecla de retroceso (Backspace)
+  input.addEventListener('keydown', function(event) {
+    if (event.key === "Backspace" && this.value === "") {
+        let previousInput = this.previousElementSibling;
+        if (previousInput) {
+            previousInput.focus();
+            previousInput.value = ""; // Borra también el valor del input anterior
+        }
+    }
+  });
+});
+
+
