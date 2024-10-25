@@ -385,8 +385,15 @@ button {
     font-size: 24px;
     text-align: center;
     border: none;
+    color:  #000;
     border-bottom: 2px solid #333;
     margin: 0 5px;
     background-color: transparent;
     outline: none;
+    text-transform: uppercase;
+}
+
+.letter-input:focus {
+    background-color: #ff1e56; /* Cambia el color al enfocar */
+    color:  #fff;
 }
