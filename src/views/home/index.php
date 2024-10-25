@@ -52,12 +52,6 @@
                 </section>
                 <!-- Aquí se agrega la palabra a adivinar debajo de todas las imágenes -->
                 <div class="word-container" id="word">
-                    <input type="text" maxlength="1" value="A" class="letter-input">
-                    <input type="text" maxlength="1" class="letter-input">
-                    <input type="text" maxlength="1" class="letter-input">
-                    <input type="text" maxlength="1" class="letter-input">
-                    <input type="text" maxlength="1" class="letter-input">
-                    <input type="text" maxlength="1" class="letter-input">
                 </div>
 
                 <div id="btn-back" class="back-home">
@@ -103,6 +97,7 @@
     </div>
 
     <script src="public/assets/js/animation.js"></script>
+    <script src="public/assets/js/juego.js"></script>
 </body>
 
 </html>
