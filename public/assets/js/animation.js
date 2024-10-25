@@ -22,9 +22,10 @@ loginBtn.onclick = function () {
 
 // Iniciar el juego y mover el boton
 btnPlay.onclick = function () {
+  // Llamamos a la funcion getWord para obtener una palabra aleatoria de la API y mostrarla en el DOM
+  getWord();
   // Mueve el boton fuera de la pantalla
   btnPlay.classList.add("btn-play-move");
-
   // Mostrar el juego
   game.style.display = "flex";
 
