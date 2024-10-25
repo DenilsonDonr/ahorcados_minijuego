@@ -7,7 +7,7 @@
     <title>Ahorcados</title>
 
     <link rel="stylesheet" href="public/assets/css/style.css">
-        
+
 
 </head>
 
@@ -51,11 +51,18 @@
                     </div>
                 </section>
                 <!-- Aquí se agrega la palabra a adivinar debajo de todas las imágenes -->
-                <div class="word-container">
-                    <p class="word-to-guess">_ _ _ _ _ _ _</p> <!-- Ejemplo de palabra con guiones -->
+                <div class="word-container" id="word">
+                    <input type="text" maxlength="1" value="A" class="letter-input">
+                    <input type="text" maxlength="1" class="letter-input">
+                    <input type="text" maxlength="1" class="letter-input">
+                    <input type="text" maxlength="1" class="letter-input">
+                    <input type="text" maxlength="1" class="letter-input">
+                    <input type="text" maxlength="1" class="letter-input">
                 </div>
+
                 <div id="btn-back" class="back-home">
-                    <button class="btn-back" title="Regresar"><</button>
+                    <button class="btn-back" title="Regresar">
+                        <
                 </div>
             </section>
         </main>
@@ -71,14 +78,31 @@
     <div id="loginModal" class="modal">
         <div class="modal-content" id="modalContent">
             <span class="close" id="closeModal">&times;</span>
-            <h2>¡Inicia Sesión!</h2>
-            <p>Ingresa tus datos para continuar.</p>
-            <input type="text" placeholder="Usuario" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
-            <input type="password" placeholder="Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
-            <button class="btn-arcade">Ingresar</button>
-            <p>¿No tienes cuenta? <button class="btn-arcade">Regístrate</button></p>
+
+            <!-- Sección de Inicio de Sesión -->
+            <div id="loginSection" class="section-active">
+                <h2>¡Inicia Sesión!</h2>
+                <p>Ingresa tus datos para continuar.</p>
+                <input type="text" placeholder="Usuario" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                <input type="password" placeholder="Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                <button id="btn-login" class="btn-arcade">Ingresar</button>
+                <p>¿No tienes cuenta? <button class="btn-arcade" id="switchToRegister">Regístrate</button></p>
+            </div>
+
+            <!-- Sección de Registro -->
+            <div id="registerSection" class="section-hidden">
+                <h2>¡Regístrate!</h2>
+                <p>Crea tu cuenta para continuar.</p>
+                <input type="text" placeholder="Correo Electrónico" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                <input type="password" placeholder="Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                <input type="password" placeholder="Confirmar Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                <button id="btn-register" class="btn-arcade">Crear Cuenta</button>
+                <p>¿Ya tienes una cuenta? <button class="btn-arcade" id="switchToLogin">Inicia Sesión</button></p>
+            </div>
         </div>
     </div>
+
     <script src="public/assets/js/animation.js"></script>
 </body>
+
 </html>
