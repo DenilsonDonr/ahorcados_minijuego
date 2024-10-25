@@ -98,6 +98,11 @@
 
     <script src="public/assets/js/animation.js"></script>
     <script src="public/assets/js/juego.js"></script>
+    <script src="public/assets/js/general.js"></script>
+
+    <script src="public/assets/js/home/index.js"></script>
+
+    
 </body>
 
 </html>
