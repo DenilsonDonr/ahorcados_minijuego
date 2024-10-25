@@ -108,31 +108,5 @@ switchToLogin.onclick = function() {
 
 
 
-// Agregamos validacion de entrada para solo letras
-document.querySelectorAll('.letter-input').forEach(input => {
-  input.addEventListener('input', function() {
-      // Permitir solo letras
-      if (this.value.length > 1 || !/^[a-zA-Z]$/.test(this.value)) {
-          this.value = ''; // Borra si no es una letra
-      }
-      
-      // Pasar al siguiente input si la letra es válida
-      let nextInput = this.nextElementSibling;
-      if (nextInput && this.value) {
-          nextInput.focus();
-      }
-  });
-
-  // Manejar la tecla de retroceso (Backspace)
-  input.addEventListener('keydown', function(event) {
-    if (event.key === "Backspace" && this.value === "") {
-        let previousInput = this.previousElementSibling;
-        if (previousInput) {
-            previousInput.focus();
-            previousInput.value = ""; // Borra también el valor del input anterior
-        }
-    }
-  });
-});
 
 
