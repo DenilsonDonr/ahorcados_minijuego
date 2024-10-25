@@ -77,9 +77,11 @@
             <div id="loginSection" class="section-active">
                 <h2>¡Inicia Sesión!</h2>
                 <p>Ingresa tus datos para continuar.</p>
-                <input type="text" placeholder="Usuario" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
-                <input type="password" placeholder="Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
-                <button id="btn-login" class="btn-arcade">Ingresar</button>
+                <form>
+                    <input type="text" placeholder="Usuario" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                    <input type="password" placeholder="Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                    <button id="btn-login" class="btn-arcade">Ingresar</button>
+                </form>
                 <p>¿No tienes cuenta? <button class="btn-arcade" id="switchToRegister">Regístrate</button></p>
             </div>
 
@@ -87,10 +89,12 @@
             <div id="registerSection" class="section-hidden">
                 <h2>¡Regístrate!</h2>
                 <p>Crea tu cuenta para continuar.</p>
-                <input type="text" placeholder="Correo Electrónico" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
-                <input type="password" placeholder="Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
-                <input type="password" placeholder="Confirmar Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
-                <button id="btn-register" class="btn-arcade">Crear Cuenta</button>
+                <form>
+                    <input type="text" placeholder="Correo Electrónico" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                    <input type="password" placeholder="Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                    <input type="password" placeholder="Confirmar Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                    <button id="btn-register" class="btn-arcade">Crear Cuenta</button>
+                </form>
                 <p>¿Ya tienes una cuenta? <button class="btn-arcade" id="switchToLogin">Inicia Sesión</button></p>
             </div>
         </div>
