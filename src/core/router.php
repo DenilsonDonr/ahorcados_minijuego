@@ -1,6 +1,7 @@
 <?php
 
 use Jay\controllers\home\HomeController;
+use Jay\controllers\word\WordController;
 
 require_once __DIR__ . '/../middleware/login.php';
 
@@ -40,6 +41,15 @@ $router->mount('/login', function () use ($router) {
     $router->get('/logout', function () {
         // session_destroy();
         echo 'logout';
+    });
+});
+
+# Rutas de word
+
+$router->mount('/word', function () use ($router) {
+    $router->get('/getWord', function () {
+        $word = new WordController();
+        $word->getWord();
     });
 });
 
