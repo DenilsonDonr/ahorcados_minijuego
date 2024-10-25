@@ -30,6 +30,9 @@ btnPlay.onclick = function () {
 
 // Regresar al menu principal y volver a mover el boton
 btnBack.onclick = function () {
+
+  btnPlay.disabled = true; // Deshabilitar el boton
+
   game.classList.add("game-play-exit");
 
   // Mostrar el botón de nuevo antes de iniciar la animación
@@ -42,7 +45,7 @@ btnBack.onclick = function () {
   btnPlay.addEventListener("animationend", function handlePlayHomeEnd() {
     btnPlay.classList.remove("btn-play-home");
     btnPlay.style.display = "block";
-    console.log("btnPlay visible después de la animación");
+    btnPlay.disabled = false;
     btnPlay.removeEventListener("animationend", handlePlayHomeEnd); // Evitar acumulación de eventos
   });
 
