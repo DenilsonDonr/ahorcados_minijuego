@@ -1,6 +1,7 @@
 <?php
 
 use Jay\controllers\home\HomeController;
+use Jay\controllers\login\LoginController;
 use Jay\controllers\word\WordController;
 
 require_once __DIR__ . '/../middleware/login.php';
@@ -23,11 +24,12 @@ $router->get('/', function () {
 // });
 
 # Api de login
-$router->mount('/login', function () use ($router) {
+$router->mount('/usuario/login', function () use ($router) {
  
     # Register, registra el usuario
     $router->post('/register', function () {
-        echo 'register';
+        $user = new LoginController();
+        $user->registerUser();
     });
 
     # Authenticate, valida el usuario y password
