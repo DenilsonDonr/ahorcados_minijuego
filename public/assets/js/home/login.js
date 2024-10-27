@@ -46,10 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
             cleanForm();
 
-            modalContent.classList.add("close-animation");
-            setTimeout(function () {
-                modal.style.display = "none"; // Ocultar el modal despues de que la animacion termine
-            }, 1800); // Tiempo igual al de la animacion (1.8s)
         } catch (error) {
             console.error("Error en el registro:", error);
         }
