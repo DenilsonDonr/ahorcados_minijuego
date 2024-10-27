@@ -89,11 +89,12 @@
             <div id="registerSection" class="section-hidden">
                 <h2>¡Regístrate!</h2>
                 <p>Crea tu cuenta para continuar.</p>
-                <form>
-                    <input type="text" placeholder="Correo Electrónico" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
-                    <input type="password" placeholder="Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
-                    <input type="password" placeholder="Confirmar Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
-                    <button id="btn-register" class="btn-arcade">Crear Cuenta</button>
+                <form id="registerForm" method="post">
+                    <input type="text" name="user" placeholder="Ingresa usuario" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                    <input type="text" name="email" placeholder="Correo Electrónico" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                    <input type="password" name="password" placeholder="Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                    <input type="password" name="passwordConfirmed" placeholder="Confirmar Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                    <button id="btn-register" type="submit" class="btn-arcade">Crear Cuenta</button>
                 </form>
                 <p>¿Ya tienes una cuenta? <button class="btn-arcade" id="switchToLogin">Inicia Sesión</button></p>
             </div>
@@ -105,6 +106,7 @@
     <script src="public/assets/js/general.js"></script>
 
     <script src="public/assets/js/home/index.js"></script>
+    <script src="public/assets/js/home/login.js"></script>
 
     
 </body>
