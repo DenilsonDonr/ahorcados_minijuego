@@ -1,17 +1,21 @@
 let palabra = "";
 let palabraSecreta = "";
 
+
 // Proporción de letras a ocultar (por ejemplo, el 25%)
 let porcentajeOcultar = 0.75;
-let ocultar = Math.ceil(palabra.length * porcentajeOcultar); // Numero de letras a ocultar
+let ocultar; // Numero de letras a ocultar
 let indicesOcultos = [];
 
-function startGame(word) {
+function startGame(word, arrayImages) {
   palabra = word;
   ocultar = Math.ceil(palabra.length * porcentajeOcultar); // Actualiza el número de letras a ocultar en base a la longitud de la palabra
   indicesOcultos = []; // Reinicia los índices ocultos
   palabraSecreta = ""; // Reinicia la palabra secreta
   generateRandomIndices();
+
+  // Imagenes
+  insertImages(arrayImages);
 }
 
 function generateRandomIndices() {
@@ -49,6 +53,17 @@ function buildWordSecret() {
     }
   }
   writingArrangement();
+}
+
+// Referencia al DOM, para recorrer la clase de las etiquetas IMG
+let imagenes = document.getElementsByClassName('image-show');
+
+// Insertamos los valores al SRC de las imagenes.
+function insertImages(arrayImages)
+{
+  for (let i = 0; i < imagenes.length; i++) {
+    imagenes[i].src = 'public/assets/img/' + arrayImages[i];
+  }
 }
 
 function writingArrangement() {
@@ -97,4 +112,14 @@ function writingArrangement() {
       }
     });
   });
+}
+
+
+// Verificamos si no hay una partida ya iniciada en LocalStorage, en caso contrario, continuamos el flujo.
+function verifyGame(){
+  if (localStorage.getItem('game')) {
+    startGame(JSON.parse(localStorage.getItem('game')).palabra, JSON.parse(localStorage.getItem('game')).imagenes);
+  } else {
+    getWord();
+  }
 }
