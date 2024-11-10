@@ -163,12 +163,15 @@ function verifyRightAnswer(wordVal)
   if(isCompletedAll){
     let word = palabra.replace(/_/g, '');
     if(word === wordVal){
-      alert('��Ganaste!');
+      showSuccessAnimation();
+      //alert('��Ganaste!');
       localStorage.removeItem('game');
       localStorage.removeItem('indice_hidden');
       getWord();
     } else {
-      alert('Perdiste!');
+      showErrorAnimation();
+
+      //alert('Perdiste!');
       // localStorage.removeItem('game');
       // localStorage.removeItem('indice_hidden');
       // startGame('', []);
@@ -177,6 +180,43 @@ function verifyRightAnswer(wordVal)
     alert('Debes completar todas las letras.');
   }
 }
+
+function showSuccessAnimation() {
+  let container = document.createElement('div');
+  container.classList.add('success-container');
+  container.innerHTML = `
+    <div class="success-checkmark">
+      <div class="check-icon">
+        <span class="icon-line line-tip"></span>
+        <span class="icon-line line-long"></span>
+      </div>
+    </div>
+    <p>¡Ganaste!</p>
+  `;
+  document.body.appendChild(container);
+  setTimeout(() => {
+    container.remove();
+  }, 2000);
+}
+
+function showErrorAnimation() {
+  let container = document.createElement('div');
+  container.classList.add('error-container');
+  container.innerHTML = `
+    <div class="error-cross">
+      <div class="cross-icon">
+        <span class="icon-line cross-left"></span>
+        <span class="icon-line cross-right"></span>
+      </div>
+    </div>
+    <p>Perdiste</p>
+  `;
+  document.body.appendChild(container);
+  setTimeout(() => {
+    container.remove();
+  }, 2000);
+}
+
 
 function getAnswer()
 {
