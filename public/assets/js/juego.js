@@ -9,11 +9,16 @@ let indicesOcultos = [];
 
 function startGame(word, arrayImages) {
   palabra = word;
-  ocultar = Math.ceil(palabra.length * porcentajeOcultar); // Actualiza el número de letras a ocultar en base a la longitud de la palabra
-  indicesOcultos = []; // Reinicia los índices ocultos
   palabraSecreta = ""; // Reinicia la palabra secreta
-  generateRandomIndices();
 
+  // Verificamos si no hay en el localStorage
+  if(!localStorage.getItem('indice_hidden')){
+    ocultar = Math.ceil(palabra.length * porcentajeOcultar); // Actualiza el número de letras a ocultar en base a la longitud de la palabra
+    indicesOcultos = []; // Reinicia los índices ocultos
+    generateRandomIndices();
+  }else{
+    createWordSecret();
+  }
   // Imagenes
   insertImages(arrayImages);
 }
@@ -38,6 +43,7 @@ function createWordSecret() {
       palabraSecreta += palabra[i]; // Muestra la letra correcta
     }
   }
+  verifyIndiceHidden();
   buildWordSecret();
 }
 
@@ -53,6 +59,7 @@ function buildWordSecret() {
     }
   }
   writingArrangement();
+  initilizeEventInputLetters();
 }
 
 // Referencia al DOM, para recorrer la clase de las etiquetas IMG
@@ -114,12 +121,90 @@ function writingArrangement() {
   });
 }
 
+// function updateStorageIndiceHidden(index){
+//   // Buscar el valor en el array, con que sea igual con el index value
+//   let position = indicesOcultos.indexOf(index);
+//   indicesOcultos.splice(position, 1);
+//   localStorage.setItem('indice_hidden', JSON.stringify(indicesOcultos));
+// }
+
+
+
+let isCompletedAll = false;
+
+function initilizeEventInputLetters()
+{
+  // Referencia al DOM, para recorrer los inputs de letter-input
+  let inputs_letter = document.querySelectorAll(".letter-input");
+  inputs_letter.forEach((input, index) => {
+    input.addEventListener('input', function(){
+      // updateStorageIndiceHidden(index);
+      verifyLetterInput();
+      if(isCompletedAll === true){
+        verifyRightAnswer(getAnswer());
+      }
+    })
+  })
+}
+
+
+// Verificamos que todos los campos tengan valor
+function verifyLetterInput()
+{
+  // Referencia al DOM, para recorrer los inputs de letter-input
+  let inputs_letter = document.querySelectorAll(".letter-input");
+
+  // Verificamos que todos los campos tengan valor
+  isCompletedAll = Array.from(inputs_letter).every(input => input.value !== "")
+}
+
+function verifyRightAnswer(wordVal)
+{
+  if(isCompletedAll){
+    let word = palabra.replace(/_/g, '');
+    if(word === wordVal){
+      alert('��Ganaste!');
+      localStorage.removeItem('game');
+      localStorage.removeItem('indice_hidden');
+      getWord();
+    } else {
+      alert('Perdiste!');
+      // localStorage.removeItem('game');
+      // localStorage.removeItem('indice_hidden');
+      // startGame('', []);
+    }
+  } else {
+    alert('Debes completar todas las letras.');
+  }
+}
+
+function getAnswer()
+{
+  let response = '';
+   // Referencia al DOM, para recorrer los inputs de letter-input
+   let inputs_letter = document.querySelectorAll(".letter-input");
+   inputs_letter.forEach((input) => {
+    response += input.value;
+  });
+
+  return response;
+}
+
+
 
 // Verificamos si no hay una partida ya iniciada en LocalStorage, en caso contrario, continuamos el flujo.
 function verifyGame(){
   if (localStorage.getItem('game')) {
+    indicesOcultos = JSON.parse(localStorage.getItem('indice_hidden'));
     startGame(JSON.parse(localStorage.getItem('game')).palabra, JSON.parse(localStorage.getItem('game')).imagenes);
   } else {
     getWord();
+  }
+}
+
+function verifyIndiceHidden()
+{
+  if (!localStorage.getItem('indice_hidden')){
+    localStorage.setItem('indice_hidden', JSON.stringify(indicesOcultos));
   }
 }
