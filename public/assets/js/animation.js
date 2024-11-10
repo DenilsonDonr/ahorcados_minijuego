@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let modal = document.getElementById("loginModal");
   let modalContent = document.getElementById("modalContent");
   let closeModal = document.getElementById("closeModal");
+  // Obtenemos la referenecia del boton en el DOM
   let btnPlay = document.getElementById("btn-play");
   let game = document.getElementById("game");
   let btnBack = document.getElementById("btn-back");
@@ -23,8 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Iniciar el juego y mover el boton
   btnPlay.onclick = function () {
-    // Llamamos a la funcion getWord para obtener una palabra aleatoria de la API y mostrarla en el DOM
-    getWord();
+    // Llamamos a la funcion verifyGame, ya que debido a esto verificamos que si no hay un localStorage del juego, inciaremos uno, de lo contrario continuaremos con el que esta presente.
+    verifyGame()
     // Mueve el boton fuera de la pantalla
     btnPlay.classList.add("btn-play-move");
     // Mostrar el juego
