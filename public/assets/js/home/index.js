@@ -1,4 +1,4 @@
-// Obtenemos una palabra aleatoria de la API y la mostramos en el DOM
+// Obtenemos una palabra aleatoria de la API y comenzamos el juego
 const getWord = async () => {
     let response = await FetchData('http://localhost/ahorcados_minijuego/word/getWord', 'GET', {});
     
@@ -6,6 +6,13 @@ const getWord = async () => {
     {
         alert('No se pudo obtener la palabra', response);
     }
+    // Guardamos la palabra y el array de imagenes el LocalStorage con el referente de nombre -> game
 
-    startGame(response.palabra);
+    let game = {palabra: response.palabra, imagenes : response.imagenes}
+    localStorage.setItem('game', JSON.stringify(game));
+    // Iniciamos el juego
+    startGame(response.palabra, response.imagenes);
 };
+
+
+
