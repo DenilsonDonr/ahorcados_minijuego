@@ -31,22 +31,19 @@
             <section id="game" class="game-play">
                 <section class="section-img">
                     <div>
-
+                        <div class="card-img">
+                            <img src="" class="image-show" alt="">
+                        </div>
+                        <div class="card-img card-img-top">
+                            <img src="" class="image-show" alt="">
+                        </div>
                     </div>
                     <div>
                         <div class="card-img">
-                            <img src="public/assets/img/place_holder.webp" alt="Imagen 1">
+                            <img src="" class="image-show" alt="">
                         </div>
                         <div class="card-img card-img-top">
-                            <img src="public/assets/img/place_holder.webp" alt="Imagen 2">
-                        </div>
-                    </div>
-                    <div>
-                        <div class="card-img">
-                            <img src="public/assets/img/place_holder.webp" alt="Imagen 3">
-                        </div>
-                        <div class="card-img card-img-top">
-                            <img src="public/assets/img/place_holder.webp" alt="Imagen 4">
+                            <img src="" class="image-show" alt="">
                         </div>
                     </div>
                 </section>
