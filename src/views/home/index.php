@@ -94,6 +94,7 @@
                     <button id="btn-register" type="submit" class="btn-arcade">Crear Cuenta</button>
                 </form>
                 <p>¿Ya tienes una cuenta? <button class="btn-arcade" id="switchToLogin">Inicia Sesión</button></p>
+                
             </div>
         </div>
     </div>
