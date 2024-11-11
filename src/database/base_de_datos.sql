@@ -59,15 +59,6 @@ CREATE TABLE palabras (
     CONSTRAINT id_usuario_fk_palabras FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
 
-INSERT INTO palabras (palabra, json_images, niveles, id_usuario, estado) 
-VALUES (
-    'bicicleta', 
-    '["b_c1_ds.webp", "b_c2_sd.jpg", "b_c3_sd.jpg", "b_c4_sd.webp"]',  -- JSON array de imágenes
-    1,  -- Nivel de dificultad o número de niveles
-    1,  -- ID de usuario (asumiendo que este usuario ya existe en la tabla `usuarios`)
-    '1' -- Estado (puede ser 'A' para activo, por ejemplo)
-);
-drop table palabras;
 
 -- jugadas
 CREATE TABLE jugadas(
