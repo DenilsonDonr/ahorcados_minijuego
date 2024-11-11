@@ -138,7 +138,51 @@ html {
     cursor: pointer;
 }
 
+/* Notificación inicial oculta */
+.notification {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(50, 115, 220, 0.9); /* Color azul con transparencia */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    opacity: 0;
+}
 
+/* Animación de aparición */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateX(50%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Animación de desaparición */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(50%);
+    }
+}
+
+/* Clase para mostrar la notificación con animación */
+.notification.show {
+    display: block;
+    animation: fadeIn 0.5s forwards, fadeOut 0.5s forwards 2s; /* Se desvanece después de 2 segundos */
+}
 
 
 /* Animación de entrada desde la derecha */
