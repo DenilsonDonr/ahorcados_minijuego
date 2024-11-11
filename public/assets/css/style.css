@@ -502,3 +502,39 @@ button {
     background-color: #ff1e56; /* Cambia el color al enfocar */
     color:  #fff;
 }
+
+/* Desplazamiento de imagenes durante la partida */
+/* Animación de salida hacia arriba */
+@keyframes slideUp {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+  
+  /* Clase para la animación de salida */
+  .slide-up {
+    animation: slideUp 1.5s ease-in forwards;
+  }
+  
+  /* Animación de entrada desde abajo */
+  @keyframes slideDown {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Clase para la animación de entrada */
+  .slide-down {
+    animation: slideDown 1.5s ease-out forwards;
+  }
+  
