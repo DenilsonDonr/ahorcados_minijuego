@@ -38,11 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
             let response = await FetchData('http://localhost/ahorcados_minijuego/usuario/login/register', 'POST', data);
     
             if (!response || !response.success || response.error) {
-                alert('Error en el registro: ' + response.error);
+                //alert('Error en el registro: ' + response.error);
+                showNotification(response.error);
                 return;
             }
     
-            alert("Usuario: " + response.success);
+            //alert("Usuario: " + response.success);
+            showNotification(response.success);
     
             cleanForm();
 
@@ -57,3 +59,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
+function showNotification(message, duration = 1500) {
+    // Crear el elemento de notificación dinámicamente
+    const notification = document.createElement("div");
+    notification.classList.add("notification");
+    notification.innerText = message;
+
+    // Agregar la notificación al body
+    document.body.appendChild(notification);
+
+    // Mostrar la notificación con la animación
+    notification.classList.add("show");
+
+    // Remover la notificación después del tiempo especificado
+    setTimeout(() => {
+        notification.classList.remove("show");
+        // Remover el elemento del DOM después de la animación
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 500); // Esperar que la animación termine antes de eliminar
+    }, duration + 100);
+}
+
+
+
+
