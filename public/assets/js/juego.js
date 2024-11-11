@@ -167,7 +167,15 @@ function verifyRightAnswer(wordVal)
       //alert('��Ganaste!');
       localStorage.removeItem('game');
       localStorage.removeItem('indice_hidden');
-      getWord();
+       // Espera 2 segundos para ejecutar la animación de salida de imágenes
+       setTimeout(() => {
+        animateSectionOut();
+      }, 2000);
+      
+      // Espera 4 segundos en total antes de obtener la nueva palabra
+      setTimeout(() => {
+        getWord();
+      }, 3000);
     } else {
       showErrorAnimation();
 
@@ -248,3 +256,30 @@ function verifyIndiceHidden()
     localStorage.setItem('indice_hidden', JSON.stringify(indicesOcultos));
   }
 }
+
+function animateSectionOut() {
+  let section = document.querySelector('.section-img');
+  if (section) {
+    // Asegúrate de eliminar cualquier clase previa antes de aplicar la nueva animación
+    section.classList.remove('slide-up', 'slide-down');
+
+    // Añade la clase para iniciar la animación de salida
+    section.classList.add('slide-up');
+
+    // Escuchar cuando termina la animación de salida para luego activar la animación de entrada
+    section.addEventListener('animationend', () => {
+      // Remover la clase de animación de salida
+      section.classList.remove('slide-up');
+      // Añadir la clase de animación de entrada para la siguiente palabra
+      section.classList.add('slide-down');
+
+      // Escuchar cuando termina la animación de entrada para remover la clase
+      section.addEventListener('animationend', () => {
+        section.classList.remove('slide-down'); // Remueve la clase para que esté lista para la próxima salida
+      }, { once: true }); // Asegúrate de que solo se ejecute una vez por entrada
+    }, { once: true }); // Asegúrate de que solo se ejecute una vez por salida
+  }
+}
+
+
+
