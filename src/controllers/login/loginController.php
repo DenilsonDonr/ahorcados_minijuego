@@ -39,6 +39,6 @@ class LoginController
             echo json_encode(['error' => $response]);
             exit;
         }
-        echo json_encode(['success' => 'Registrado exitosamente!']);
+        echo json_encode(['success' => '¡Registro exitoso! Bienvenido']);
     }
 }
