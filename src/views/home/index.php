@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Verificar si el usuario está en la sesión
+$user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,13 +23,33 @@
 
 <body>
     <div class="container">
-        <section class="section">
+    <section class="section">
             <article class="card center-card top-card content-section-1-card">
                 <h2>Puntajes</h2>
-                <p>Nombre: Juan Pérez</p>
-                <p>Puntaje: 100</p>
+                <p>Nombre: <?php echo isset($_SESSION['user']) ? htmlspecialchars($_SESSION['user']['usuario']) : 'Invitado'; ?></p>
+                <p>Puntaje: <?php echo isset($_SESSION['user']) ? htmlspecialchars($_SESSION['user']['puntaje'] ?? '0') : '0'; ?></p>
             </article>
+
+            <!-- Botón de Cerrar Sesión -->
+            <?php if (isset($_SESSION['user'])): ?>
+                <button class="btn-arcade" id="btn-logout">Cerrar Sesión</button>
+            <?php endif; ?>
+
+            <!-- Mensaje de Cierre de Sesión Exitoso -->
+            <?php if (isset($_GET['message']) && $_GET['message'] === 'logout_success'): ?>
+                <p>Has cerrado sesión exitosamente.</p>
+            <?php endif; ?>
+
+            <!-- Modal de Cierre de Sesión -->
+            <div id="logoutModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h2>¿Deseas cerrar sesión?</h2>
+                    <button id="confirmLogout">Confirmar Cerrar Sesión</button>
+                    <button id="cancelLogout">Cancelar</button>
+                </div>
+            </div>
         </section>
+
         <main class="section">
             <section class="play">
                 <div>
@@ -54,7 +84,7 @@
                 <div id="btn-back" class="back-home">
                     <button class="btn-back" title="Regresar">
                         <
-                </div>
+                            </div>
             </section>
         </main>
         <section class="section">
@@ -94,7 +124,7 @@
                     <button id="btn-register" type="submit" class="btn-arcade">Crear Cuenta</button>
                 </form>
                 <p>¿Ya tienes una cuenta? <button class="btn-arcade" id="switchToLogin">Inicia Sesión</button></p>
-                
+
             </div>
         </div>
     </div>
@@ -106,7 +136,7 @@
     <script src="public/assets/js/home/index.js"></script>
     <script src="public/assets/js/home/login.js"></script>
 
-    
+
 </body>
 
 </html>
