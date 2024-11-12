@@ -14,7 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Validamos que todos los campos estén completos
         if (!data.user || !data.email || !data.password || !registerForm.passwordConfirmed.value) {
-            alert('Todos los campos son obligatorios');
+            //alert('Todos los campos son obligatorios');
+            showNotification('Todos los campos son obligatorios');
+
             return;
         }
     
@@ -38,11 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
             let response = await FetchData('http://localhost/ahorcados_minijuego/usuario/login/register', 'POST', data);
     
             if (!response || !response.success || response.error) {
-                alert('Error en el registro: ' + response.error);
+                //alert('Error en el registro: ' + response.error);
+                showNotification(response.error);
                 return;
             }
     
-            alert("Usuario: " + response.success);
+            //alert("Usuario: " + response.success);
+            showNotification("Usuario: " +response.success);
+            
     
             cleanForm();
 
