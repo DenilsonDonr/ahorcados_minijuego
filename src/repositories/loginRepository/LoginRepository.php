@@ -28,5 +28,27 @@ class LoginRepository extends Model {
             return false;
         }
     }
+
+    public function loginUser($username, $password)
+{
+    try {
+        $sql = "SELECT * FROM usuarios WHERE usuario = :username AND contrasena = :password";
+        $stmt = $this->prepare($sql);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
+        $stmt->execute();
+
+        // Si se encuentra un registro, devuelve el usuario
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        error_log("LoginUser::" . $e->getMessage());
+        return false;
+    }
+}
+
     
 }
