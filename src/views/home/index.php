@@ -8,7 +8,8 @@
 
     <link rel="stylesheet" href="public/assets/css/style.css">
 
-
+    <!-- Agregar un icono -->
+     <link rel="shortcut icon" type="image/png" href="public/assets/img/person.svg">
 </head>
 
 <body>
