@@ -1,5 +1,6 @@
 <?php
 
+// Logica de negocio
 
 namespace Jay\models\wordModel;
 
