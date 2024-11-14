@@ -1,7 +1,6 @@
 let palabra = "";
 let palabraSecreta = "";
 
-
 // Proporción de letras a ocultar (por ejemplo, el 25%)
 let porcentajeOcultar = 0.75;
 let ocultar; // Numero de letras a ocultar
@@ -9,19 +8,23 @@ let indicesOcultos = [];
 
 function startGame(word, arrayImages) {
   palabra = word;
+  
   palabraSecreta = ""; // Reinicia la palabra secreta
 
   // Verificamos si no hay en el localStorage
-  if(!localStorage.getItem('indice_hidden')){
-    ocultar = Math.ceil(palabra.length * porcentajeOcultar); // Actualiza el número de letras a ocultar en base a la longitud de la palabra
+  if (!localStorage.getItem('indice_hidden')) {
+    // Calculamos cuántas letras ocultar
+    ocultar = Math.ceil(palabra.length * porcentajeOcultar);
     indicesOcultos = []; // Reinicia los índices ocultos
     generateRandomIndices();
-  }else{
+  } else {
     createWordSecret();
   }
+
   // Imagenes
   insertImages(arrayImages);
 }
+
 
 function generateRandomIndices() {
   // Generar indices aleatorios únicos para ocultar letras
@@ -158,35 +161,33 @@ function verifyLetterInput()
   isCompletedAll = Array.from(inputs_letter).every(input => input.value !== "")
 }
 
-function verifyRightAnswer(wordVal)
-{
-  if(isCompletedAll){
-    let word = palabra.replace(/_/g, '');
-    if(word === wordVal){
-      showSuccessAnimation();
-      //alert('��Ganaste!');
-      localStorage.removeItem('game');
-      localStorage.removeItem('indice_hidden');
-       // Espera 2 segundos para ejecutar la animación de salida de imágenes
-       setTimeout(() => {
-        animateSectionOut();
-      }, 2000);
-      
-      // Espera 4 segundos en total antes de obtener la nueva palabra
-      setTimeout(() => {
-        getWord();
-      }, 3000);
-    } else {
-      showErrorAnimation();
+function verifyRightAnswer(wordVal) {
+  if (isCompletedAll) {
+      let word = palabra.replace(/_/g, '');
+      if (word === wordVal) {
+          showSuccessAnimation();
+          removeGameAndIndiceHidden();
+          // Espera 2 segundos para la animación de salida de las imágenes
+          setTimeout(() => {
+              animateSectionOut();
+          }, 2000);
 
-      //alert('Perdiste!');
-      // localStorage.removeItem('game');
-      // localStorage.removeItem('indice_hidden');
-      // startGame('', []);
-    }
+          // Espera un total de 4 segundos antes de obtener la nueva palabra
+          setTimeout(() => {
+              getWord();
+          }, 3500);
+      } else {
+          showErrorAnimation();
+      }
   } else {
-    alert('Debes completar todas las letras.');
+      alert('Debes completar todas las letras.');
   }
+}
+
+function removeGameAndIndiceHidden()
+{
+  localStorage.removeItem('game');
+  localStorage.removeItem('indice_hidden');
 }
 
 function showSuccessAnimation() {
