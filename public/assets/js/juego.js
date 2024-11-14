@@ -78,7 +78,7 @@ function writingArrangement() {
   document.querySelectorAll(".letter-input").forEach((input, index, inputs) => {
     input.addEventListener("input", function () {
       // Permitir solo letras
-      if (this.value.length > 1 || !/^[a-zA-Z]$/.test(this.value)) {
+      if (this.value.length > 1 || !/^[a-zA-ZñÑ]$/.test(this.value)) {
         this.value = ""; // Borra si no es una letra
       }
 
