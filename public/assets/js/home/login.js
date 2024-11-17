@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+    createFloatingShapes();
     // Obtenemos el DOM del formulario de registro
     const registerForm = document.getElementById("registerForm");
     

@@ -63,6 +63,8 @@ function buildWordSecret() {
   }
   writingArrangement();
   initilizeEventInputLetters();
+  console.log('Inputs de letras construidos en el DOM');
+
 }
 
 // Referencia al DOM, para recorrer la clase de las etiquetas IMG
@@ -159,6 +161,38 @@ function verifyLetterInput()
 
   // Verificamos que todos los campos tengan valor
   isCompletedAll = Array.from(inputs_letter).every(input => input.value !== "")
+}
+
+async function verifyRightAnswer(wordVal) {
+  if (isProcessing) return; // Salir si ya está procesando
+
+  if (isCompletedAll) {
+      let word = palabra.replace(/_/g, '');
+      if (word === wordVal) {
+          isProcessing = true; // Indicar que se está procesando
+          showSuccessAnimation();
+          removeGameAndIndiceHidden();
+
+          try {
+              await animateSectionOut(); // Esperar a que la animación de salida termine
+              await getWord();           // Esperar a que getWord finalice
+              await animateSectionIn();  // Luego ejecutar la animación de entrada
+          } catch (error) {
+              alert('No se pudo obtener la palabra, intentando nuevamente...');
+              console.error(error);
+          } finally {
+              isProcessing = false; // Resetear la bandera
+              console.log('Proceso de verificación completado');
+          }
+      } else {
+          showErrorAnimation();
+          console.log('Respuesta incorrecta');
+      }
+  } else {
+      alert('Debes completar todas las letras.');
+      console.log('No todas las letras están completas');
+
+  }
 }
 
 function verifyRightAnswer(wordVal) {
@@ -258,29 +292,70 @@ function verifyIndiceHidden()
   }
 }
 
+
+let isProcessing = false;
+
+let isAnimating = false;
+
+// Función para animar la salida de la sección
 function animateSectionOut() {
-  let section = document.querySelector('.section-img');
-  if (section) {
-    // Asegúrate de eliminar cualquier clase previa antes de aplicar la nueva animación
-    section.classList.remove('slide-up', 'slide-down');
+    if (isAnimating) return Promise.reject('Animación en progreso');
 
-    // Añade la clase para iniciar la animación de salida
-    section.classList.add('slide-up');
+    isAnimating = true;
 
-    // Escuchar cuando termina la animación de salida para luego activar la animación de entrada
-    section.addEventListener('animationend', () => {
-      // Remover la clase de animación de salida
-      section.classList.remove('slide-up');
-      // Añadir la clase de animación de entrada para la siguiente palabra
-      section.classList.add('slide-down');
+    return new Promise((resolve, reject) => {
+        const section = document.querySelector('.section-img');
+        if (section) {
+            // Iniciar animación de salida
+            section.classList.remove('slide-down');
+            section.classList.add('slide-up');
 
-      // Escuchar cuando termina la animación de entrada para remover la clase
-      section.addEventListener('animationend', () => {
-        section.classList.remove('slide-down'); // Remueve la clase para que esté lista para la próxima salida
-      }, { once: true }); // Asegúrate de que solo se ejecute una vez por entrada
-    }, { once: true }); // Asegúrate de que solo se ejecute una vez por salida
-  }
+            // Escuchar el final de la animación
+            section.addEventListener('animationend', () => {
+                // Remover clase de animación de salida
+                section.classList.remove('slide-up');
+                // Ocultar la sección
+                section.classList.add('hidden');
+                isAnimating = false;
+                resolve();
+            }, { once: true });
+        } else {
+            isAnimating = false;
+            reject('Sección no encontrada');
+        }
+    });
 }
+
+// Función para animar la entrada de la sección
+function animateSectionIn() {
+    if (isAnimating) return Promise.reject('Animación en progreso');
+
+    isAnimating = true;
+
+    return new Promise((resolve, reject) => {
+        const section = document.querySelector('.section-img');
+        if (section) {
+            // Asegurarse de que la sección esté oculta antes de animar
+            section.classList.remove('hidden');
+            // Forzar un reflow para que el navegador registre el cambio de clase
+            void section.offsetWidth;
+            // Iniciar animación de entrada
+            section.classList.add('slide-down');
+
+            // Escuchar el final de la animación
+            section.addEventListener('animationend', () => {
+                // Remover clase de animación de entrada
+                section.classList.remove('slide-down');
+                isAnimating = false;
+                resolve();
+            }, { once: true });
+        } else {
+            isAnimating = false;
+            reject('Sección no encontrada');
+        }
+    });
+}
+
 
 
 

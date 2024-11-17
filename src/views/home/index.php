@@ -9,18 +9,21 @@
     <link rel="stylesheet" href="public/assets/css/style.css">
 
     <!-- Agregar un icono -->
-     <link rel="shortcut icon" type="image/png" href="public/assets/img/person.svg">
+    <link rel="shortcut icon" type="image/png" href="public/assets/img/person.svg">
 </head>
 
 <body>
-    <div class="container">
-        <section class="section">
+    <div class="container section-1">
+    
+        <section class="section ">
+            
             <article class="card center-card top-card content-section-1-card">
                 <h2>Puntajes</h2>
-                <p>Nombre: Juan Pérez</p>
+                <p>Nombre: Invitado</p>
                 <p>Puntaje: 100</p>
             </article>
         </section>
+
         <main class="section">
             <section class="play">
                 <div>
@@ -54,7 +57,6 @@
 
                 <div id="btn-back" class="back-home">
                     <button class="btn-back" title="Regresar">
-                        <
                 </div>
             </section>
         </main>
@@ -106,7 +108,7 @@
     <script src="public/assets/js/home/index.js"></script>
     <script src="public/assets/js/home/login.js"></script>
 
-    
+
 </body>
 
 </html>
