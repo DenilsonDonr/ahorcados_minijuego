@@ -57,8 +57,7 @@
 
                 <div id="btn-back" class="back-home">
                     <button class="btn-back" title="Regresar">
-                        <
-                            </div>
+                </div>
             </section>
         </main>
         <section class="section">

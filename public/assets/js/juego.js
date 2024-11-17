@@ -195,7 +195,28 @@ async function verifyRightAnswer(wordVal) {
   }
 }
 
+function verifyRightAnswer(wordVal) {
+  if (isCompletedAll) {
+      let word = palabra.replace(/_/g, '');
+      if (word === wordVal) {
+          showSuccessAnimation();
+          removeGameAndIndiceHidden();
+          // Espera 2 segundos para la animación de salida de las imágenes
+          setTimeout(() => {
+              animateSectionOut();
+          }, 2000);
 
+          // Espera un total de 4 segundos antes de obtener la nueva palabra
+          setTimeout(() => {
+              getWord();
+          }, 3500);
+      } else {
+          showErrorAnimation();
+      }
+  } else {
+      alert('Debes completar todas las letras.');
+  }
+}
 
 function removeGameAndIndiceHidden()
 {
