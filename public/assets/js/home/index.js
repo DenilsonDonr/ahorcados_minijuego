@@ -1,28 +1,42 @@
 // Obtenemos una palabra aleatoria de la API y comenzamos el juego
 const getWord = async () => {
-    let response = await FetchData('http://localhost/ahorcados_minijuego/word/getWord', 'GET', {});
-        
-    if (response) {
-        if(localStorage.getItem('words'))
-        {
-            let status = verifyMaxRowWidthMaxArrayWords();
-            if (status)
-            {
-                localStorage.clear();
-                getWord();
-                return;
+    try {
+        while (true) { // Bucle hasta encontrar una palabra única
+            let response = await FetchData('http://localhost/ahorcados_minijuego/word/getWord', 'GET', {});
+
+            if (!response) {
+                throw new Error('No se pudo obtener la palabra');
             }
+
+            if (localStorage.getItem('words')) {
+                let status = verifyMaxRowWidthMaxArrayWords();
+                if (status) {
+                    localStorage.clear();
+                }
+            }
+
+            let wordId = response[0].id_palabra;
+            let words = JSON.parse(localStorage.getItem('words')) || [];
+
+            if (words.includes(wordId)) {
+                continue; // Obtener una nueva palabra si ya existe
+            }
+
+            // Guardar palabra e imágenes
+            saveStorageWords(wordId);
+            saveStorageRows(response[1]);
+            saveStorageGame(response[0]);
+            startGame(response[0].palabra, response[0].imagenes);
+            break; // Salir del bucle una vez obtenida una palabra única
         }
-        // Guardamos la palabra y las imágenes
-        saveStorageRows(response[1]);
-        saveStorageWords(response[0].id_palabra);
-        saveStorageGame(response[0]);
-        startGame(response[0].palabra, response[0].imagenes);
-        return;
-    } else {
-        alert('No se pudo obtener la palabra, intentando nuevamente...');
+
+        return Promise.resolve();
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
     }
 };
+
 
 
 function saveStorageGame(response)
@@ -34,15 +48,13 @@ function saveStorageGame(response)
 
 
 
-function saveStorageWords(id)
-{
-    // Removemos el juego y el indice oculto
+function saveStorageWords(id) {
+    // Remover el juego y el índice oculto
     removeGameAndIndiceHidden();
     
-    // Primero verificaremos si no hay palabras, si es asi, agregamos un nuevo localStorage
-    if(!localStorage.getItem('words'))
-    {
-        // guardamos el id de la palabra 
+    // Verificar si 'words' existe
+    if(!localStorage.getItem('words')) {
+        // Guardar el ID de la palabra
         let words = [id];
         localStorage.setItem('words', JSON.stringify(words));
         return;
@@ -50,16 +62,15 @@ function saveStorageWords(id)
 
     let words = JSON.parse(localStorage.getItem('words')) || [];
     
-    // Verificamos que el ID no esté ya en el almacenamiento
+    // Verificar que el ID no esté ya en 'words'
     if (!words.includes(id)) {
-        // Si no está, lo agregamos
+        // Si no está, agregarlo
         words.push(id);
         localStorage.setItem('words', JSON.stringify(words));
-    } else {
-        // Si ya está, obtenemos una nueva palabra
-        getWord();
     }
+    // Si ya está, no hacer nada; getWord manejará la obtención de una nueva palabra
 }
+
 
 function saveStorageRows(rows) {
     // Solo lo guardamos si no existe ya en el localStorage

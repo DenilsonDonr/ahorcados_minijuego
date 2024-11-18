@@ -23,6 +23,7 @@ class WordController
         // Obtenemos una palabra aleatoria desde el repositorio
         $word = $this->wordRepository->getRandomWord();
         $total = $this->wordRepository->getMaximumNumberOfRows();
+        sleep(2);
         echo json_encode([$word, $total]);
     }
 }
