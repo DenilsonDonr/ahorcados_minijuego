@@ -1,98 +1,136 @@
 <?php
 
-
 namespace Jay\controllers\login;
 
 use Jay\models\loginModel\UserModel;
 use Jay\repositories\loginRepository\LoginRepository;
 
+/**
+ * Controlador encargado de gestionar la autenticación, registro y cierre de sesión de los usuarios.
+ */
 class LoginController
 {
-    private $userRepository;
+    /**
+     * Repositorio para manejar las operaciones relacionadas con el usuario.
+     * 
+     * @var LoginRepository
+     */
+    private LoginRepository $userRepository;
 
+    /**
+     * Constructor de la clase LoginController.
+     * Instancia el repositorio que maneja la lógica de acceso a datos de los usuarios.
+     */
     public function __construct()
     {
-        // instanciamos el repositorio
+        // Instanciamos el repositorio que nos permitirá acceder a los datos del usuario
         $this->userRepository = new LoginRepository();
     }
 
-    // Validar login
-
-    public function authenticateUser()
+    /**
+     * Autentica al usuario utilizando su correo electrónico y contraseña.
+     * 
+     * @return void
+     */
+    public function authenticateUser(): void
     {
-         // Leer el cuerpo de la solicitud
+        // Leer el cuerpo de la solicitud (JSON)
         $json = file_get_contents('php://input');
 
-        // Decodificar JSON a un array asociativo
+        // Decodificar el JSON a un array asociativo
         $data = json_decode($json, true);
+
+        // Crear un nuevo modelo de usuario y asignar los datos recibidos
         $user = new UserModel();
         $user->setEmail($data['email']);
         $user->setPassword($data['password']);
 
+        // Verificamos si el usuario existe en la base de datos usando el repositorio
         $response = $this->userRepository->auth($user);
 
-        if($response)
+        // Si el usuario existe
+        if ($response)
         {
-            if($user->verifyPassword($response['contrasena']))
+            // Verificamos que la contraseña proporcionada coincida con la almacenada en la base de datos
+            if ($user->verifyPassword($response['contrasena']))
             {
-                // iniciamos la sesion
+                // Iniciamos la sesión del usuario
                 session_start();
+
+                // Guardamos los datos del usuario en la sesión
                 $_SESSION['user'] = $response['usuario'];
                 $_SESSION['status'] = true;
-               
-                // guardamos el ID
+
+                // Guardamos el ID del usuario para futuras referencias
                 $_SESSION['id'] = $response['id'];
-                
+
+                // Enviamos una respuesta de éxito
                 echo json_encode(['success' => 'Usuario autenticado']);
             }
             else
             {
+                // Si la contraseña no coincide, respondemos con un error
                 echo json_encode(['error' => 'Usuario o contraseña incorrecta']);
             }
         }
         else
         {
+            // Si el usuario no existe, respondemos con un error
             echo json_encode(['error' => 'Usuario no encontrado']);
         }
     }
 
-    public function registerUser()
+    /**
+     * Registra un nuevo usuario en el sistema.
+     * 
+     * @return void
+     */
+    public function registerUser(): void
     {
-        // Leer el cuerpo de la solicitud
+        // Leer el cuerpo de la solicitud (JSON)
         $json = file_get_contents('php://input');
 
-        // Decodificar JSON a un array asociativo
+        // Decodificar el JSON a un array asociativo
         $data = json_decode($json, true);
 
+        // Crear un nuevo modelo de usuario y asignar los datos recibidos
         $user = new UserModel();
         $user->setName($data['user']);
-        // Validar email, en caso sea si, pasamos
-        // if(!$user->validateEmail($_POST['email']))
-        // {
-        //     echo json_encode(['message' => 'Email invalido']);
-        // }
         $user->setEmail($data['email']);
-        
-        // Hash password
+
+        // Encriptar la contraseña utilizando password_hash
         $user->setPassword(password_hash($data['password'], PASSWORD_DEFAULT));
 
+        // Intentamos registrar al nuevo usuario en la base de datos
         $response = $this->userRepository->registerUser($user);
-        if(!$response)
+
+        // Si hubo un error al registrar al usuario
+        if (!$response)
         {
+            // Enviamos una respuesta con el error
             echo json_encode(['error' => $response]);
             exit;
         }
+
+        // Si el registro fue exitoso, respondemos con un mensaje de éxito
         echo json_encode(['success' => 'Registrado exitosamente!']);
     }
 
-
-    // logout
-
-    public function logout()
+    /**
+     * Cierra la sesión del usuario.
+     * 
+     * @return void
+     */
+    public function logout(): void
     {
+        // Iniciamos la sesión
         session_start();
-        
+
+        // Destruimos la sesión del usuario
         session_destroy();
+
+        // Respondemos con un mensaje de éxito indicando que la sesión fue cerrada
         echo json_encode(['success' => 'Sesion cerrada']);
     }
 }
+?>

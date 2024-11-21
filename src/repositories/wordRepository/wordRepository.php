@@ -1,21 +1,45 @@
-<?php
+<?php 
 
 namespace Jay\repositories\wordRepository;
-
 
 use PDO;
 use PDOException;
 
-class WordRepository implements WordInterface {
+/**
+ * Clase WordRepository
+ * 
+ * Esta clase gestiona las operaciones relacionadas con las palabras en la base de datos,
+ * como obtener una palabra aleatoria, obtener el número máximo de palabras, agregar jugadas y 
+ * obtener el puntaje total de un usuario. Implementa la interfaz WordInterface.
+ */
+class WordRepository implements WordInterface 
+{
+    /**
+     * @var PDO $db Objeto de conexión a la base de datos.
+     */
     private $db;
 
-    // Inyeccion de dependencia
-    public function __construct(PDO $db) {
+    /**
+     * Constructor de la clase WordRepository.
+     * 
+     * Se recibe la conexión a la base de datos a través de inyección de dependencias.
+     * 
+     * @param PDO $db Objeto de la conexión a la base de datos.
+     */
+    public function __construct(PDO $db) 
+    {
         $this->db = $db;
     }
 
-    // Agregar usuario a la base de datos
-    public function getRandomWord() {
+    /**
+     * Obtiene una palabra aleatoria de la base de datos.
+     * 
+     * Este método selecciona aleatoriamente una palabra y su JSON de imágenes desde la base de datos.
+     * 
+     * @return array Un arreglo con la palabra, las imágenes (en formato de array) y el ID de la palabra.
+     */
+    public function getRandomWord(): array 
+    {
         // Seleccionamos la palabra y el JSON de las imágenes
         $sql = "SELECT id_palabra, palabra, json_images FROM palabras ORDER BY RAND() LIMIT 1";
         $stmt = $this->db->prepare($sql);
@@ -33,91 +57,115 @@ class WordRepository implements WordInterface {
         // Extraemos el ID de la palabra
         $idPalabra = $row['id_palabra'];
 
-        // Retornamos la palabra y el array de nombres de las imágenes
+        // Retornamos la palabra, el array de imágenes y el ID de la palabra
         return [
             'palabra' => $palabra,
             'imagenes' => $imagenes, // Array de nombres de las imágenes
             'id_palabra' => $idPalabra
         ]; 
     }
-    // Método estático que devuelve el número máximo de palabras en la base de datos
-    public function getMaximumNumberOfRows()
+
+    /**
+     * Obtiene el número total de palabras en la base de datos.
+     * 
+     * Este método ejecuta una consulta SQL para contar el número de palabras disponibles en la base de datos.
+     * 
+     * @return int El número total de palabras en la base de datos.
+     */
+    public function getMaximumNumberOfRows(): int
     {
-        // Usamos la misma conexión de base de datos que se pasa como argumento
-        $sql = "SELECT COUNT(id_palabra) as total FROM palabras limit 1";
+        // Consulta para contar las palabras en la base de datos
+        $sql = "SELECT COUNT(id_palabra) as total FROM palabras LIMIT 1";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
 
         // Obtenemos el resultado
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Devolvemos el número total de palabras
-        return $row['total'];
+        // Retornamos el número total de palabras
+        return (int)$row['total'];
     }
 
-    // insertamos la jugada
+    /**
+     * Inserta una jugada en la base de datos.
+     * 
+     * Este método inserta los datos de una jugada (puntaje, palabra y usuario) en la base de datos. 
+     * Asegura que el ID del usuario esté disponible en la sesión antes de realizar la operación.
+     * 
+     * @param object $wordModel Objeto que representa el modelo de la palabra.
+     * 
+     * @return bool `true` si la jugada se insertó correctamente, `false` en caso contrario.
+     */
     public function addPlay($wordModel): bool 
     {
-        session_start(); // Asegúrate de que la sesión está iniciada
+        session_start(); // Asegúrate de que la sesión esté iniciada
 
-        // Verifica si el ID del usuario existe en la sesión
+        // Verifica si el ID del usuario está en la sesión
         if (!isset($_SESSION['id'])) {
-            // Si no existe el ID del usuario en la sesión, se devuelve false
+            // Si no existe, retorna false
             return false;
         }
 
-        $userId = $_SESSION['id']; // Obtener el ID del usuario desde la sesión
+        $userId = $_SESSION['id']; // Obtiene el ID del usuario desde la sesión
 
         try {
-            // Prepara la consulta SQL
-            $sql = "INSERT INTO jugadas (puntaje,id_palabra, id_usuario) VALUES (10,:id_palabra, :id_usuario)";
+            // Prepara la consulta SQL para insertar una jugada
+            $sql = "INSERT INTO jugadas (puntaje, id_palabra, id_usuario) VALUES (10, :id_palabra, :id_usuario)";
             $stmt = $this->db->prepare($sql);
             
-            // Enlaza los parámetros
+            // Vincula los parámetros
             $stmt->bindParam(':id_palabra', $wordModel->getId());
             $stmt->bindParam(':id_usuario', $userId);
             
             // Ejecuta la consulta
             $stmt->execute();
             
-            // Si la ejecución fue exitosa, devuelve true
+            // Si la ejecución es exitosa, retorna true
             return true;
         } catch (PDOException $e) {
-            // Si hay un error, se puede registrar o manejar el error aquí
-            // Log del error o mensaje personalizado
+            // Registra el error y retorna false en caso de fallo
             error_log("Error al insertar la jugada: " . $e->getMessage());
-            
-            // Devuelve false si ocurrió un error
             return false;
         }
     }
+
+    /**
+     * Obtiene el puntaje total acumulado de un usuario.
+     * 
+     * Este método calcula la suma total de puntajes del usuario en función de las jugadas registradas.
+     * 
+     * @return int|false El puntaje total del usuario o `false` si ocurre un error.
+     */
     public function getScore()
     {
-        session_start(); // Asegúrate de que la sesión está iniciada
+        session_start(); // Asegúrate de que la sesión esté iniciada
 
-        // Verifica si el ID del usuario existe en la sesión
+        // Verifica si el ID del usuario está en la sesión
         if (!isset($_SESSION['id'])) {
-            // Si no existe el ID del usuario en la sesión, se devuelve false
+            // Si no existe, retorna false
             return false;
         }
 
-        $userId = $_SESSION['id']; // Obtener el ID del usuario desde la sesión
+        $userId = $_SESSION['id']; // Obtiene el ID del usuario desde la sesión
         
         try {
+            // Consulta SQL para obtener la suma de los puntajes del usuario
             $sql = "SELECT sum(puntaje) as score FROM ahorcados_senati.jugadas WHERE id_usuario = :id_user";
             $stmt = $this->db->prepare($sql);
 
-            // Enlazado los parametros
+            // Vincula el parámetro
             $stmt->bindParam(':id_user', $userId);
 
             // Ejecuta la consulta
             $stmt->execute();
 
-            // Obtenemos el resultado
+            // Obtiene el resultado
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            return $row['score'];
+            // Retorna el puntaje total
+            return (int)$row['score'];
         } catch (PDOException $e) {
+            // Registra el error y retorna false si ocurre un fallo
             error_log("Error al obtener el puntaje: " . $e->getMessage());
             return false;
         }
