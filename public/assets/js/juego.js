@@ -201,6 +201,8 @@ async function verifyRightAnswer(wordVal) {
             let lastWord = wordLocal[wordLocal.length - 1];
             // Guardamos la juega de la palabra
             savePlayWord(lastWord)
+          } else{
+            cleanAttempts();
           }
 
           try {
