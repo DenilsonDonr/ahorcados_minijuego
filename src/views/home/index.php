@@ -51,6 +51,9 @@
                         </div>
                     </div>
                 </section>
+                <p>
+                    Intento: <span id="intento">0</span>
+                </p>
                 <!-- Aquí se agrega la palabra a adivinar debajo de todas las imágenes -->
                 <div class="word-container" id="word">
                 </div>
