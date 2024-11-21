@@ -42,7 +42,7 @@ class WordController
 
         // Insertar la palabra en la base de datos
         $response = $this->wordRepository->addPlay($wordModel);
-
+        error_log(json_encode($response));
         if($response)
         {
             echo json_encode(['success' => 'Jugada guardada']);
@@ -51,5 +51,11 @@ class WordController
         {
             echo json_encode(['error' => 'Error al guardar la jugada']);
         }
+    }
+
+    public function getScore()
+    {
+        $response = $this->wordRepository->getScore();
+        echo json_encode(["score" => $response]);
     }
 }

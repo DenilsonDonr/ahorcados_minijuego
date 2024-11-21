@@ -1,3 +1,5 @@
+createFloatingShapes();
+
 // Obtenemos una palabra aleatoria de la API y comenzamos el juego
 const getWord = async () => {
     try {
@@ -43,25 +45,40 @@ const getWord = async () => {
 const savePlayWord = async (id) => {
     try {
         saveStorageWords(id);
-        let response = await FetchData('http://localhost/ahorcados_minijuego/word/addaddPlay', 'POST', {
+        let response = await FetchData('http://localhost/ahorcados_minijuego/word/addPlay', 'POST', {
             id: id
         });
 
-        if (!response) {
-            throw new Error('No se pudo obtener la palabra');
-        }
 
         if(!response.success) {
             throw new Error(response.error);
         }
 
-        console.log(response);
+        getScore();
         
     } catch (error) {
         console.error(error);
     }
 }
 
+const getScore = async () => {
+    try{
+        const response = await FetchData('http://localhost/ahorcados_minijuego/word/getScore', 'GET', {});
+        console.log(response)
+
+        updateClient(response.score);
+    }catch(error){
+        console.error(error)
+    }
+}
+getScore();
+
+function updateClient(scoreValue)
+{
+    let score = document.getElementById('score');
+    
+    score.innerText = scoreValue ? scoreValue : '0';
+}
 function saveStorageGame(response)
 {
     // Guardamos la palabra y el array de imagenes el LocalStorage con el referente de nombre -> game

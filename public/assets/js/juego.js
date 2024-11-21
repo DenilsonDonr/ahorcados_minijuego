@@ -80,79 +80,9 @@ function insertImages(arrayImages)
   }
 }
 
-// function writingArrangement() {
-//   // Agrega validación de entrada para solo letras
-//   document.querySelectorAll(".letter-input").forEach((input, index, inputs) => {
-//     input.addEventListener("input", function () {
-//       // Permitir solo letras
-//       if (this.value.length > 1 || !/^[a-zA-ZñÑ]$/.test(this.value)) {
-//         this.value = ""; // Borra si no es una letra
-//       }
-
-//       // Pasar al siguiente input si la letra es válida y el siguiente no está deshabilitado
-//       let nextInput = inputs[index + 1];
-//       if (this.value) {
-//         while (nextInput && nextInput.disabled) {
-//           nextInput = inputs[++index];
-//         }
-//         if (nextInput) nextInput.focus();
-//       }
-//     });
-
-//     // Manejar la tecla de retroceso (Backspace)
-//     input.addEventListener("keydown", function (event) {
-//       if (event.key === "Backspace" && this.value === "") {
-//         let previousInput = inputs[index - 1];
-//         // Encuentra el input anterior no deshabilitado
-//         while (previousInput && previousInput.disabled) {
-//           previousInput = inputs[--index];
-//         }
-//         if (previousInput) {
-//           previousInput.focus();
-//           previousInput.value = ""; // Borra también el valor del input anterior si no está deshabilitado
-//         }
-//       }
-
-//       // Avanzar al siguiente input no deshabilitado al presionar Enter
-//       if (event.key === "Enter") {
-//         let nextInput = inputs[index + 1];
-//         while (nextInput && nextInput.disabled) {
-//           nextInput = inputs[++index];
-//         }
-//         if (nextInput) {
-//           nextInput.focus();
-//           event.preventDefault(); // Evita cualquier acción por defecto del Enter
-//         }
-//       }
-//     });
-//   });
-// }
-
-// function updateStorageIndiceHidden(index){
-//   // Buscar el valor en el array, con que sea igual con el index value
-//   let position = indicesOcultos.indexOf(index);
-//   indicesOcultos.splice(position, 1);
-//   localStorage.setItem('indice_hidden', JSON.stringify(indicesOcultos));
-// }
-
 
 
 let isCompletedAll = false;
-
-// function initilizeEventInputLetters()
-// {
-//   // Referencia al DOM, para recorrer los inputs de letter-input
-//   let inputs_letter = document.querySelectorAll(".letter-input");
-//   inputs_letter.forEach((input, index) => {
-//     input.addEventListener('input', function(){
-//       // updateStorageIndiceHidden(index);
-//       verifyLetterInput();
-//       if(isCompletedAll === true){
-//         verifyRightAnswer(getAnswer());
-//       }
-//     })
-//   })
-// }
 
 function initilizeEventInputLetters() {
   const inputs = document.querySelectorAll(".letter-input");

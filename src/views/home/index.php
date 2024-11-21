@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -16,11 +17,10 @@
     <div class="container section-1">
 
         <section class="section ">
-
             <article class="card center-card top-card content-section-1-card">
                 <h2>Puntajes</h2>
-                <p>Nombre: Invitado</p>
-                <p>Puntaje: 100</p>
+                <p>Nombre: <?= isset($_SESSION['user']) ? $_SESSION['user'] : 'invitado' ?></p>
+                <p>Puntaje: <span id="score"></span></p>
             </article>
         </section>
 
@@ -65,7 +65,6 @@
             <div class="card right-card top-card content-section-3-card">
                 <!-- Arcade Login Icon -->
                 <?php
-                session_start();
                 $status = $_SESSION['status']; 
                 if(!$status) { 
                 ?>

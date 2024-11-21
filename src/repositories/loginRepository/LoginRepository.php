@@ -17,7 +17,7 @@ class LoginRepository extends Model {
     public function auth(UserModel $user)
     {
         try {
-            $sql = "SELECT id, contrasena FROM usuarios WHERE correo = :email";
+            $sql = "SELECT id, contrasena, usuario FROM usuarios WHERE correo = :email";
             $stmt = $this->prepare($sql);
             $email = $user->getEmail();
             $stmt->bindParam(':email', $email);

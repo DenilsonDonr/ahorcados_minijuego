@@ -4,7 +4,7 @@ namespace Jay\repositories\wordRepository;
 
 
 use PDO;
-
+use PDOException;
 
 class WordRepository implements WordInterface {
     private $db;
@@ -56,16 +56,70 @@ class WordRepository implements WordInterface {
     }
 
     // insertamos la jugada
-    public function addPlay($wordModel) {
-        session_start();
-        // Obtener el ID del usuario desde la sesión
-        $userId = $_SESSION['id'];
+    public function addPlay($wordModel): bool 
+    {
+        session_start(); // Asegúrate de que la sesión está iniciada
 
-        // Insertamos la jugada en la base de datos
-        $sql = "INSERT INTO jugadas (id_palabra, id_usuario) VALUES (:id_palabra, :id_usuario)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id_palabra', $wordModel->getId());
-        $stmt->bindParam(':id_usuario', $userId);
-        $stmt->execute();
+        // Verifica si el ID del usuario existe en la sesión
+        if (!isset($_SESSION['id'])) {
+            // Si no existe el ID del usuario en la sesión, se devuelve false
+            return false;
+        }
+
+        $userId = $_SESSION['id']; // Obtener el ID del usuario desde la sesión
+
+        try {
+            // Prepara la consulta SQL
+            $sql = "INSERT INTO jugadas (puntaje,id_palabra, id_usuario) VALUES (10,:id_palabra, :id_usuario)";
+            $stmt = $this->db->prepare($sql);
+            
+            // Enlaza los parámetros
+            $stmt->bindParam(':id_palabra', $wordModel->getId());
+            $stmt->bindParam(':id_usuario', $userId);
+            
+            // Ejecuta la consulta
+            $stmt->execute();
+            
+            // Si la ejecución fue exitosa, devuelve true
+            return true;
+        } catch (PDOException $e) {
+            // Si hay un error, se puede registrar o manejar el error aquí
+            // Log del error o mensaje personalizado
+            error_log("Error al insertar la jugada: " . $e->getMessage());
+            
+            // Devuelve false si ocurrió un error
+            return false;
+        }
+    }
+    public function getScore()
+    {
+        session_start(); // Asegúrate de que la sesión está iniciada
+
+        // Verifica si el ID del usuario existe en la sesión
+        if (!isset($_SESSION['id'])) {
+            // Si no existe el ID del usuario en la sesión, se devuelve false
+            return false;
+        }
+
+        $userId = $_SESSION['id']; // Obtener el ID del usuario desde la sesión
+        
+        try {
+            $sql = "SELECT sum(puntaje) as score FROM ahorcados_senati.jugadas WHERE id_usuario = :id_user";
+            $stmt = $this->db->prepare($sql);
+
+            // Enlazado los parametros
+            $stmt->bindParam(':id_user', $userId);
+
+            // Ejecuta la consulta
+            $stmt->execute();
+
+            // Obtenemos el resultado
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return $row['score'];
+        } catch (PDOException $e) {
+            error_log("Error al obtener el puntaje: " . $e->getMessage());
+            return false;
+        }
     }
 }

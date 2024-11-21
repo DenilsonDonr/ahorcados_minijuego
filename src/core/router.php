@@ -52,10 +52,16 @@ $router->mount('/word', function () use ($router) {
         $word = new WordController();
         $word->getWord();
     });
-    $router->post('/addaddPlay', function () {
+    $router->post('/addPlay', function () {
         $word = new WordController();
         $word->addPlay();
     });
+    
+    $router->get('/getScore', function () {
+        $word = new WordController;
+        $word->getScore();
+    });
 });
+
 
 $router->run();

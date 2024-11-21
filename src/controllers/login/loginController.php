@@ -37,7 +37,7 @@ class LoginController
             {
                 // iniciamos la sesion
                 session_start();
-                $_SESSION['user'] = $user->getEmail();
+                $_SESSION['user'] = $response['usuario'];
                 $_SESSION['status'] = true;
                
                 // guardamos el ID

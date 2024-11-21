@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    createFloatingShapes();
     // Obtenemos el DOM del formulario de registro
     const registerForm = document.getElementById("registerForm");
     
@@ -37,6 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
         postRegister(data);
     });
 
+    // Función para limpiar el formulario de registro
+    function cleanForm()
+    {
+        registerForm.reset();
+    }
     // Función para registrar un usuario
     const postRegister = async (data) => {
         try {
@@ -115,14 +119,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     const arcadeLogout = document.getElementById("arcadeLogout");
-
-    arcadeLogout.addEventListener("click", (e) => {
-        e.preventDefault();  // Detenemos la recarga de la página
-        
-        // Enviar datos a la API
-        postLogout();
+    if(arcadeLogout)
+    {
+        arcadeLogout.addEventListener("click", (e) => {
+            e.preventDefault();  // Detenemos la recarga de la página
+            
+            // Enviar datos a la API
+            postLogout();
+        }
+        );
     }
-    );
 
     // funcion para un logout
     const postLogout = async () => {
@@ -152,9 +158,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Función para limpiar el formulario de registro
-    const cleanForm = () => {
-        registerForm.reset();
-    }
-
+    
 });

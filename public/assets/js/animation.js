@@ -379,6 +379,9 @@ function createFloatingShapes() {
   // Añadir el contenedor principal al contenedor especificado
   container.appendChild(backwrap);
 }
+
+createFloatingShapes();
+
 function playAudio(audioFile) {
   const audio = new Audio(audioFile);
   audio.play();
