@@ -13,17 +13,6 @@ CREATE TABLE usuarios (
     estado CHAR(1) NOT NULL
 );
 
-INSERT INTO usuarios (usuario, edad, correo, contrasena, tipo_usuario, estado) 
-VALUES (
-    'Juan',
-    '25', 
-    'juan.perez@example.com', 
-    'hashed_password',  -- Suponiendo que la contraseña esté hasheada
-    1,  -- Tipo de usuario ('A' puede ser Administrador, por ejemplo)
-    1  -- Estado (puede ser 'A' para activo, 'I' para inactivo)
-);
-
-
 
 -- roles
 CREATE TABLE roles (
@@ -51,7 +40,7 @@ CREATE TABLE permisos (
 -- palabras
 CREATE TABLE palabras (
     id_palabra INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    palabra VARCHAR(255) NOT NULL,
+    palabra VARCHAR(255) UNIQUE NOT NULL,
     json_images JSON NOT NULL,
     niveles INT NOT NULL, 
     id_usuario INT NOT NULL,

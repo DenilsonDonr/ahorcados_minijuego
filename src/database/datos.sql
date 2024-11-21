@@ -1,5 +1,15 @@
 use ahorcados_senati;
 
+INSERT INTO usuarios (usuario, edad, correo, contrasena, tipo_usuario, estado) 
+VALUES (
+    'Juan',
+    '25', 
+    'juan.perez@example.com', 
+    'hashed_password',  -- Suponiendo que la contraseña esté hasheada
+    1,  -- Tipo de usuario ('A' puede ser Administrador, por ejemplo)
+    1  -- Estado (puede ser 'A' para activo, 'I' para inactivo)
+);
+
 INSERT INTO palabras (palabra, json_images, niveles, id_usuario, estado) 
 VALUES (
     'bicicleta', 
