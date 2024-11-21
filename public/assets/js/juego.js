@@ -91,12 +91,19 @@ let imagenes = document.getElementsByClassName('image-show');
  * Inserta las imágenes en los elementos con la clase 'image-show'.
  * @param {string[]} arrayImages - Arreglo con las rutas de las imágenes a insertar.
  */
-function insertImages(arrayImages)
-{
+function insertImages(arrayImages) {
+  // Mezcla aleatoriamente el array de imágenes usando el algoritmo Fisher-Yates Shuffle
+  for (let i = arrayImages.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));  // Selecciona un índice aleatorio
+    [arrayImages[i], arrayImages[j]] = [arrayImages[j], arrayImages[i]];  // Intercambia los elementos
+  }
+
+  // Asignamos las imágenes aleatorias a los elementos
   for (let i = 0; i < imagenes.length; i++) {
     imagenes[i].src = 'public/assets/img/' + arrayImages[i];
   }
 }
+
 
 
 
