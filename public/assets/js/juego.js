@@ -186,7 +186,7 @@ async function verifyRightAnswer(wordVal) {
           isProcessing = true; // Indicar que se está procesando
           showSuccessAnimation();
           removeGameAndIndiceHidden();
-          
+          cleanAttempts();
           // Validamos si hay un usuario iniciado 
           if (localStorage.getItem('logged')) {
             let wordLocal = JSON.parse(localStorage.getItem('words')) || [];
@@ -207,6 +207,7 @@ async function verifyRightAnswer(wordVal) {
               isProcessing = false; // Resetear la bandera
           }
       } else {
+          addAttempts(1);
           showErrorAnimation();
           console.log('Respuesta incorrecta');
       }
@@ -217,6 +218,49 @@ async function verifyRightAnswer(wordVal) {
   }
 }
 
+// Obtenemos el elemento HTML donde se mostrará el valor de 'intento'
+let intentoH = document.getElementById('intento');
+
+/**
+ * Función para gestionar los intentos de un juego o acción.
+ * Esta función incrementa el valor de los intentos, o lo recupera de LocalStorage si no se especifica un incremento.
+ * 
+ * @param {number} cambio - Si el valor es 0, la función recupera el intento almacenado en localStorage.
+ *                           Si el valor es 1, incrementa el contador de intentos en 1 y lo guarda en localStorage.
+ */
+function addAttempts(cambio = 0) {
+  // Primero validamos si hay un valor de 'intento' almacenado en el LocalStorage y si no se solicita un incremento
+  if(localStorage.getItem('intento') && cambio == 0) {
+    // Si existe el valor de 'intento' en LocalStorage y no se requiere incremento,
+    // se muestra el valor almacenado en la vista (en el elemento HTML correspondiente)
+    intentoH.innerText = JSON.parse(localStorage.getItem('intento'));
+    return; // No hace más, ya que solo mostramos el valor almacenado
+  }
+
+  // Si el valor de 'intentoH' existe y el parámetro 'cambio' es igual a 1 (solicitamos incrementar el intento)
+  if(intentoH && cambio == 1) {
+    // Recuperamos el valor actual del contador de intentos desde el elemento HTML
+    let valuePresent = parseInt(intentoH.textContent) + 1;
+    
+    // Actualizamos la vista mostrando el nuevo valor de 'intento'
+    intentoH.innerText = valuePresent;
+
+    // Guardamos el nuevo valor en LocalStorage para persistirlo entre sesiones
+    localStorage.setItem('intento', JSON.stringify(valuePresent));
+  }
+}
+
+addAttempts();
+
+function cleanAttempts()
+{
+  // Limpiamos el item
+  localStorage.removeItem('intento');
+
+  // restauramos intentos a 0 en el cliente
+  let intentoH = document.getElementById('intento');
+  intentoH.innerText = 0;
+}
 
 /**
  * Elimina el estado del juego y los índices ocultos almacenados en localStorage.
