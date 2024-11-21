@@ -161,6 +161,13 @@ html {
     text-align: center;
 }
 
+.card_login {
+    background-color: none;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+}
+
 .arcade-login {
     display: inline;
     font-size: 18px;

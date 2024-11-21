@@ -65,7 +65,7 @@
             </section>
         </main>
         <section class="section">
-            <div class="card right-card top-card content-section-3-card">
+            <div class="card_login right-card top-card content-section-3-card">
                 <!-- Arcade Login Icon -->
                 <?php
                 $status = $_SESSION['status']; 
