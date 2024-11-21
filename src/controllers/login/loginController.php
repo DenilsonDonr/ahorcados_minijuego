@@ -92,12 +92,23 @@ class LoginController
 
         // Decodificar el JSON a un array asociativo
         $data = json_decode($json, true);
-
+        
         // Crear un nuevo modelo de usuario y asignar los datos recibidos
         $user = new UserModel();
-        $user->setName($data['user']);
-        $user->setEmail($data['email']);
+        $userV = $user->cleanStrip_tags($data['user']);
+        $user->setName($userV);
 
+        $emailV = $user->cleanStrip_tags($data['email']);
+
+        // validar email
+        if(!$user->validateEmail($emailV))
+        {
+            // Enviamos una respuesta con el error
+            echo json_encode(['error' => 'Envia el correo en un formato correcto']);
+            exit;
+        }
+        // establecer
+        $user->setEmail($emailV);
         // Encriptar la contraseña utilizando password_hash
         $user->setPassword(password_hash($data['password'], PASSWORD_DEFAULT));
 

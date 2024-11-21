@@ -145,6 +145,10 @@ class UserModel {
         return password_verify($this->getPassword(), $hash);
     }
 
+    public function cleanStrip_tags($value)
+    {
+        return strip_tags($value);
+    }
     /**
      * Método para convertir el objeto UserModel en una cadena.
      * 
