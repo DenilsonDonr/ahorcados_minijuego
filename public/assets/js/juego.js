@@ -6,6 +6,11 @@ let porcentajeOcultar = 0.75;
 let ocultar; // Numero de letras a ocultar
 let indicesOcultos = [];
 
+/**
+ * Inicializa el juego configurando la palabra y las imágenes.
+ * @param {string} word - Palabra que será usada en el juego.
+ * @param {string[]} arrayImages - Arreglo con las rutas de las imágenes a mostrar.
+ */
 function startGame(word, arrayImages) {
   palabra = word;
   
@@ -25,7 +30,9 @@ function startGame(word, arrayImages) {
   insertImages(arrayImages);
 }
 
-
+/**
+ * Genera índices aleatorios únicos para ocultar letras de la palabra.
+ */
 function generateRandomIndices() {
   // Generar indices aleatorios únicos para ocultar letras
   while (indicesOcultos.length < ocultar) {
@@ -37,6 +44,10 @@ function generateRandomIndices() {
   createWordSecret();
 }
 
+
+/**
+ * Construye la palabra secreta reemplazando las letras en los índices ocultos con guiones bajos.
+ */
 function createWordSecret() {
   // Bucle para construir la palabra secreta con letras ocultas
   for (let i = 0; i < palabra.length; i++) {
@@ -52,6 +63,10 @@ function createWordSecret() {
 
 let words = document.getElementById("word");
 
+
+/**
+ * Construye los campos de entrada para las letras de la palabra en el DOM.
+ */
 function buildWordSecret() {
   words.innerHTML = ""; // Limpia el contenido previo de words
   for (let i = 0; i < palabra.length; i++) {
@@ -72,7 +87,10 @@ function buildWordSecret() {
 // Referencia al DOM, para recorrer la clase de las etiquetas IMG
 let imagenes = document.getElementsByClassName('image-show');
 
-// Insertamos los valores al SRC de las imagenes.
+/**
+ * Inserta las imágenes en los elementos con la clase 'image-show'.
+ * @param {string[]} arrayImages - Arreglo con las rutas de las imágenes a insertar.
+ */
 function insertImages(arrayImages)
 {
   for (let i = 0; i < imagenes.length; i++) {
@@ -84,6 +102,9 @@ function insertImages(arrayImages)
 
 let isCompletedAll = false;
 
+/**
+ * Inicializa los eventos para las entradas de letras, incluyendo navegación y validación.
+ */
 function initilizeEventInputLetters() {
   const inputs = document.querySelectorAll(".letter-input");
 
@@ -137,7 +158,10 @@ function initilizeEventInputLetters() {
 }
 
 
-// Verificamos que todos los campos tengan valor
+
+/**
+ * Verifica si todos los campos de entrada de letras están completos.
+ */
 function verifyLetterInput()
 {
   // Referencia al DOM, para recorrer los inputs de letter-input
@@ -147,6 +171,11 @@ function verifyLetterInput()
   isCompletedAll = Array.from(inputs_letter).every(input => input.value !== "")
 }
 
+/**
+ * Verifica si la palabra ingresada por el usuario coincide con la palabra correcta.
+ * @param {string} wordVal - Palabra ingresada por el usuario.
+ * @returns {Promise<void>} Resuelve cuando la animación y las validaciones terminan.
+ */
 async function verifyRightAnswer(wordVal) {
   if (isProcessing) return; // Salir si ya está procesando
 
@@ -189,7 +218,9 @@ async function verifyRightAnswer(wordVal) {
 }
 
 
-
+/**
+ * Elimina el estado del juego y los índices ocultos almacenados en localStorage.
+ */
 function removeGameAndIndiceHidden()
 {
   localStorage.removeItem('game');
@@ -197,6 +228,9 @@ function removeGameAndIndiceHidden()
 }
 
 
+/**
+ * Muestra una animación de éxito al completar correctamente la palabra.
+ */
 function showSuccessAnimation() {
    // Reproducir sonido de éxito
    playAudio('public/assets/sound/game-level-completed.wav');
@@ -218,6 +252,9 @@ function showSuccessAnimation() {
   }, 2000);
 }
 
+/**
+ * Muestra una animación de error al ingresar una palabra incorrecta.
+ */
 function showErrorAnimation() {
   playAudio('public/assets/sound/sad-game-over-trombone.wav');
   let container = document.createElement('div');
@@ -237,7 +274,10 @@ function showErrorAnimation() {
   }, 2000);
 }
 
-
+/**
+ * Obtiene la palabra construida a partir de las entradas del usuario.
+ * @returns {string} Palabra ingresada por el usuario.
+ */
 function getAnswer()
 {
   let response = '';
@@ -252,7 +292,9 @@ function getAnswer()
 
 
 
-// Verificamos si no hay una partida ya iniciada en LocalStorage, en caso contrario, continuamos el flujo.
+/**
+ * Verifica si hay un juego en progreso almacenado en localStorage y lo carga si existe.
+ */
 function verifyGame(){
   if (localStorage.getItem('game')) {
     indicesOcultos = JSON.parse(localStorage.getItem('indice_hidden'));
@@ -262,6 +304,9 @@ function verifyGame(){
   }
 }
 
+/**
+ * Guarda los índices ocultos en localStorage si aún no están almacenados.
+ */
 function verifyIndiceHidden()
 {
   if (!localStorage.getItem('indice_hidden')){
@@ -274,7 +319,10 @@ let isProcessing = false;
 
 let isAnimating = false;
 
-// Función para animar la salida de la sección
+/**
+ * Realiza la animación de salida de la sección.
+ * @returns {Promise<void>} Resuelve cuando la animación termina.
+ */
 function animateSectionOut() {
     if (isAnimating) return Promise.reject('Animación en progreso');
 
@@ -303,7 +351,10 @@ function animateSectionOut() {
     });
 }
 
-// Función para animar la entrada de la sección
+/**
+ * Realiza la animación de entrada de la sección.
+ * @returns {Promise<void>} Resuelve cuando la animación termina.
+ */
 function animateSectionIn() {
       if (isAnimating) return Promise.reject('Animación en progreso');
 

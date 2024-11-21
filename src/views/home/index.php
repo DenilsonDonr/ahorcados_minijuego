@@ -92,7 +92,7 @@
                 <h2>¡Inicia Sesión!</h2>
                 <p>Ingresa tus datos para continuar.</p>
                 <form id="registerAuth" method="post">
-                    <input type="text" placeholder="Usuario" name="email" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                    <input type="text" placeholder="Correo" name="email" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
                     <input type="password" placeholder="Contraseña" name="password" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
                     <button id="btn-login" class="btn-arcade">Ingresar</button>
                 </form>

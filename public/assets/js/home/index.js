@@ -1,6 +1,16 @@
+/**
+ * Crea figuras flotantes en la pantalla.
+ * Función de inicialización visual.
+ */
 createFloatingShapes();
 
-// Obtenemos una palabra aleatoria de la API y comenzamos el juego
+
+/**
+ * Obtiene una palabra aleatoria desde la API y comienza el juego.
+ * Realiza múltiples verificaciones para asegurarse de que la palabra es única
+ * y actualiza el almacenamiento local y la interfaz del usuario.
+ * @returns {Promise<void>} Promesa resuelta al finalizar el proceso exitosamente.
+ */
 const getWord = async () => {
     try {
         while (true) { // Bucle hasta encontrar una palabra única
@@ -42,6 +52,12 @@ const getWord = async () => {
     }
 };
 
+
+/**
+ * Guarda una palabra jugada y actualiza el puntaje del usuario.
+ * @param {number} id ID de la palabra jugada.
+ * @returns {Promise<void>}
+ */
 const savePlayWord = async (id) => {
     try {
         saveStorageWords(id);
@@ -61,6 +77,10 @@ const savePlayWord = async (id) => {
     }
 }
 
+/**
+ * Obtiene el puntaje actual del jugador desde la API y actualiza la interfaz.
+ * @returns {Promise<void>}
+ */
 const getScore = async () => {
     try{
         const response = await FetchData('http://localhost/ahorcados_minijuego/word/getScore', 'GET', {});
@@ -71,14 +91,27 @@ const getScore = async () => {
         console.error(error)
     }
 }
+
+
 getScore();
 
+
+/**
+ * Actualiza el puntaje mostrado en la interfaz de usuario.
+ * @param {number} scoreValue Valor del puntaje a mostrar.
+ */
 function updateClient(scoreValue)
 {
     let score = document.getElementById('score');
     
     score.innerText = scoreValue ? scoreValue : '0';
 }
+
+
+/**
+ * Guarda la palabra y sus imágenes asociadas en el LocalStorage.
+ * @param {Object} response Respuesta de la API con los datos de la palabra e imágenes.
+ */
 function saveStorageGame(response)
 {
     // Guardamos la palabra y el array de imagenes el LocalStorage con el referente de nombre -> game
@@ -86,6 +119,10 @@ function saveStorageGame(response)
     localStorage.setItem('game', JSON.stringify(game));
 }
 
+/**
+ * Guarda el ID de una palabra en el almacenamiento local y gestiona la lista de palabras jugadas.
+ * @param {number} id ID de la palabra.
+ */
 function saveStorageWords(id) {
     // Remover el juego y el índice oculto
     removeGameAndIndiceHidden();
@@ -109,6 +146,11 @@ function saveStorageWords(id) {
     // Si ya está, no hacer nada; getWord manejará la obtención de una nueva palabra
 }
 
+
+/**
+ * Guarda el número máximo de filas en el almacenamiento local si aún no existe.
+ * @param {number} rows Número máximo de filas.
+ */
 function saveStorageRows(rows) {
     // Solo lo guardamos si no existe ya en el localStorage
     if (!localStorage.getItem('rows')) {
@@ -116,6 +158,11 @@ function saveStorageRows(rows) {
     }
 }
 
+
+/**
+ * Verifica si la cantidad de palabras almacenadas excede el número máximo de filas permitido.
+ * @returns {boolean} Verdadero si se alcanza el máximo; falso en caso contrario.
+ */
 function verifyMaxRowWidthMaxArrayWords() {
     let words = JSON.parse(localStorage.getItem('words'));
     let rows = localStorage.getItem('rows');

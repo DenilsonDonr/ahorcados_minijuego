@@ -37,7 +37,7 @@ musicToggle.addEventListener("change", () => {
 });
 
 
-  // Abrir el modal de inicio de sesion
+  // Abrir el modal de inicio de sesión al hacer clic en el botón
   if (loginBtn) {
     loginBtn.onclick = function () {
       modal.style.display = "block";
@@ -131,6 +131,14 @@ musicToggle.addEventListener("change", () => {
   };
 });
 
+
+/**
+ * Función que muestra una notificación en pantalla.
+ * Al mostrar la notificación, se reproduce un sonido y la notificación se oculta después de un tiempo.
+ * 
+ * @param {string} message - El mensaje de texto que se mostrará en la notificación.
+ * @param {number} [duration=1500] - El tiempo en milisegundos que la notificación estará visible antes de desaparecer. Por defecto, es 1500 ms.
+ **/
 function showNotification(message, duration = 1500) {
 
   // Reproducir sonido al mostrar la notificación
@@ -159,6 +167,13 @@ function showNotification(message, duration = 1500) {
   }, duration + 100);
 }
 
+/**
+ * Función que crea formas flotantes animadas dentro de un contenedor.
+ * Se asegura de que el contenedor exista antes de proceder a la creación de las formas.
+ * 
+ * Esta función genera una serie de formas geométricas (círculos, triángulos, cruces y cuadrados) que se mueven de forma animada
+ * en el fondo de la pantalla, creando un efecto visual dinámico.
+ */
 function createFloatingShapes() {
   // Seleccionar el contenedor donde se agregarán las formas
   const container = document.querySelector(".container.section-1");
@@ -382,12 +397,30 @@ function createFloatingShapes() {
 
 createFloatingShapes();
 
+
+/**
+ * Función para reproducir un archivo de audio una vez. * 
+ * Esta función crea un objeto `Audio` a partir de un archivo de audio especificado,
+ * y lo reproduce de inmediato. 
+ * @param {string} audioFile - Ruta o URL del archivo de audio que se va a reproducir. * 
+ * @example
+ * playAudio('audio/song.mp3');
+ */
 function playAudio(audioFile) {
   const audio = new Audio(audioFile);
   audio.play();
 }
-// Función para iniciar música
-function playBackgroundMusic(audioFile) {
+
+/**
+ * Función para iniciar la reproducción de música de fondo. * 
+ * Esta función reproduce un archivo de audio en bucle, con volumen ajustado a un valor bajo
+ * para evitar interferir con otros sonidos. Si ocurre un error al intentar reproducir la música,
+ * se captura el error y se muestra en la consola. * 
+ * @param {string} audioFile - Ruta o URL del archivo de audio de fondo. * 
+ * @returns {HTMLAudioElement} Devuelve el objeto `Audio` que controla la música de fondo. * 
+ * @example
+ * const music = playBackgroundMusic('audio/background-music.mp3');
+ */function playBackgroundMusic(audioFile) {
   const audio = new Audio(audioFile);
   audio.loop = true;
   audio.volume = 0.1;
