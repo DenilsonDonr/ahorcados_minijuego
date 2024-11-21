@@ -14,9 +14,9 @@
 
 <body>
     <div class="container section-1">
-    
+
         <section class="section ">
-            
+
             <article class="card center-card top-card content-section-1-card">
                 <h2>Puntajes</h2>
                 <p>Nombre: Invitado</p>
@@ -66,6 +66,10 @@
                 <!-- Arcade Login Icon -->
                 <div class="arcade-login" id="arcadeLogin">Ingresa</div>
             </div>
+            <input type="checkbox" id="music-toggle" class="music-toggle">
+            <label for="music-toggle" class="music-label">🎵</label>
+
+
         </section>
     </div>
 

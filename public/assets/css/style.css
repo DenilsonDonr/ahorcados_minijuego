@@ -719,4 +719,33 @@ button {
     animation: slideDown 1.5s ease-out forwards;
 }
 
-  
+
+/* checkbox de musica */
+.music-toggle {
+    display: none; /* Oculta el checkbox original */
+}
+
+.music-label {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 2px solid #333;
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.music-label:hover {
+    background-color: #ddd;
+    transform: scale(1.1);
+}
+
+.music-toggle:checked + .music-label {
+    background-color: #1515a8;
+    color: #fff;
+}

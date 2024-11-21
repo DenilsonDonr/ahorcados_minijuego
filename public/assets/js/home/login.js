@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!data.user || !data.email || !data.password || !registerForm.passwordConfirmed.value) {
             //alert('Todos los campos son obligatorios');
             showNotification('Todos los campos son obligatorios');
+            playAudio('/assets/sound/entrada.wav');
 
             return;
         }
@@ -44,11 +45,15 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response || !response.success || response.error) {
                 //alert('Error en el registro: ' + response.error);
                 showNotification(response.error);
+                playAudio('assets/sound/entrada.wav');
+
                 return;
             }
     
             //alert("Usuario: " + response.success);
             showNotification("Usuario: " +response.success);
+            playAudio('assets/sound/entrada.wav');
+
             
     
             cleanForm();

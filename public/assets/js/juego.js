@@ -61,8 +61,12 @@ function buildWordSecret() {
       words.innerHTML += `<input type="text" class="letter-input" value='${palabraSecreta[i]}' maxlength="1" disabled>`;
     }
   }
-  writingArrangement();
+  //writingArrangement();
   initilizeEventInputLetters();
+  const firstEditableInput = document.querySelector(".letter-input:not([disabled])");
+  if (firstEditableInput) {
+    firstEditableInput.focus();
+  }
   console.log('Inputs de letras construidos en el DOM');
 
 }
@@ -78,53 +82,53 @@ function insertImages(arrayImages)
   }
 }
 
-function writingArrangement() {
-  // Agrega validación de entrada para solo letras
-  document.querySelectorAll(".letter-input").forEach((input, index, inputs) => {
-    input.addEventListener("input", function () {
-      // Permitir solo letras
-      if (this.value.length > 1 || !/^[a-zA-ZñÑ]$/.test(this.value)) {
-        this.value = ""; // Borra si no es una letra
-      }
+// function writingArrangement() {
+//   // Agrega validación de entrada para solo letras
+//   document.querySelectorAll(".letter-input").forEach((input, index, inputs) => {
+//     input.addEventListener("input", function () {
+//       // Permitir solo letras
+//       if (this.value.length > 1 || !/^[a-zA-ZñÑ]$/.test(this.value)) {
+//         this.value = ""; // Borra si no es una letra
+//       }
 
-      // Pasar al siguiente input si la letra es válida y el siguiente no está deshabilitado
-      let nextInput = inputs[index + 1];
-      if (this.value) {
-        while (nextInput && nextInput.disabled) {
-          nextInput = inputs[++index];
-        }
-        if (nextInput) nextInput.focus();
-      }
-    });
+//       // Pasar al siguiente input si la letra es válida y el siguiente no está deshabilitado
+//       let nextInput = inputs[index + 1];
+//       if (this.value) {
+//         while (nextInput && nextInput.disabled) {
+//           nextInput = inputs[++index];
+//         }
+//         if (nextInput) nextInput.focus();
+//       }
+//     });
 
-    // Manejar la tecla de retroceso (Backspace)
-    input.addEventListener("keydown", function (event) {
-      if (event.key === "Backspace" && this.value === "") {
-        let previousInput = inputs[index - 1];
-        // Encuentra el input anterior no deshabilitado
-        while (previousInput && previousInput.disabled) {
-          previousInput = inputs[--index];
-        }
-        if (previousInput) {
-          previousInput.focus();
-          previousInput.value = ""; // Borra también el valor del input anterior si no está deshabilitado
-        }
-      }
+//     // Manejar la tecla de retroceso (Backspace)
+//     input.addEventListener("keydown", function (event) {
+//       if (event.key === "Backspace" && this.value === "") {
+//         let previousInput = inputs[index - 1];
+//         // Encuentra el input anterior no deshabilitado
+//         while (previousInput && previousInput.disabled) {
+//           previousInput = inputs[--index];
+//         }
+//         if (previousInput) {
+//           previousInput.focus();
+//           previousInput.value = ""; // Borra también el valor del input anterior si no está deshabilitado
+//         }
+//       }
 
-      // Avanzar al siguiente input no deshabilitado al presionar Enter
-      if (event.key === "Enter") {
-        let nextInput = inputs[index + 1];
-        while (nextInput && nextInput.disabled) {
-          nextInput = inputs[++index];
-        }
-        if (nextInput) {
-          nextInput.focus();
-          event.preventDefault(); // Evita cualquier acción por defecto del Enter
-        }
-      }
-    });
-  });
-}
+//       // Avanzar al siguiente input no deshabilitado al presionar Enter
+//       if (event.key === "Enter") {
+//         let nextInput = inputs[index + 1];
+//         while (nextInput && nextInput.disabled) {
+//           nextInput = inputs[++index];
+//         }
+//         if (nextInput) {
+//           nextInput.focus();
+//           event.preventDefault(); // Evita cualquier acción por defecto del Enter
+//         }
+//       }
+//     });
+//   });
+// }
 
 // function updateStorageIndiceHidden(index){
 //   // Buscar el valor en el array, con que sea igual con el index value
@@ -137,19 +141,71 @@ function writingArrangement() {
 
 let isCompletedAll = false;
 
-function initilizeEventInputLetters()
-{
-  // Referencia al DOM, para recorrer los inputs de letter-input
-  let inputs_letter = document.querySelectorAll(".letter-input");
-  inputs_letter.forEach((input, index) => {
-    input.addEventListener('input', function(){
-      // updateStorageIndiceHidden(index);
+// function initilizeEventInputLetters()
+// {
+//   // Referencia al DOM, para recorrer los inputs de letter-input
+//   let inputs_letter = document.querySelectorAll(".letter-input");
+//   inputs_letter.forEach((input, index) => {
+//     input.addEventListener('input', function(){
+//       // updateStorageIndiceHidden(index);
+//       verifyLetterInput();
+//       if(isCompletedAll === true){
+//         verifyRightAnswer(getAnswer());
+//       }
+//     })
+//   })
+// }
+
+function initilizeEventInputLetters() {
+  const inputs = document.querySelectorAll(".letter-input");
+
+  inputs.forEach((input, index) => {
+    // Manejar entrada de letras
+    input.addEventListener("input", function () {
+      if (!/^[a-zA-ZñÑ]$/.test(this.value)) {
+        this.value = ""; // Borra si no es una letra válida
+      } else {
+        // Avanzar al siguiente input editable
+        let nextInput = inputs[index + 1];
+        while (nextInput && nextInput.disabled) {
+          nextInput = inputs[++index + 1];
+        }
+        if (nextInput) nextInput.focus();
+      }
+    });
+
+    // Manejar teclas especiales
+    input.addEventListener("keydown", function (event) {
+      // Retroceso
+      if (event.key === "Backspace" && this.value === "") {
+        let previousInput = inputs[index - 1];
+        while (previousInput && previousInput.disabled) {
+          previousInput = inputs[--index - 1];
+        }
+        if (previousInput) previousInput.focus();
+      }
+
+      // Enter para avanzar
+      if (event.key === "Enter") {
+        let nextInput = inputs[index + 1];
+        while (nextInput && nextInput.disabled) {
+          nextInput = inputs[++index + 1];
+        }
+        if (nextInput) {
+          nextInput.focus();
+          event.preventDefault(); // Evita el comportamiento por defecto
+        }
+      }
+    });
+
+    // Validar si la palabra está completa
+    input.addEventListener("input", function () {
       verifyLetterInput();
-      if(isCompletedAll === true){
+      if (isCompletedAll) {
         verifyRightAnswer(getAnswer());
       }
-    })
-  })
+    });
+  });
 }
 
 
@@ -203,7 +259,11 @@ function removeGameAndIndiceHidden()
   localStorage.removeItem('indice_hidden');
 }
 
+
 function showSuccessAnimation() {
+   // Reproducir sonido de éxito
+   playAudio('public/assets/sound/game-level-completed.wav');
+
   let container = document.createElement('div');
   container.classList.add('success-container');
   container.innerHTML = `
@@ -222,6 +282,7 @@ function showSuccessAnimation() {
 }
 
 function showErrorAnimation() {
+  playAudio('public/assets/sound/sad-game-over-trombone.wav');
   let container = document.createElement('div');
   container.classList.add('error-container');
   container.innerHTML = `
@@ -307,7 +368,7 @@ function animateSectionOut() {
 
 // Función para animar la entrada de la sección
 function animateSectionIn() {
-    if (isAnimating) return Promise.reject('Animación en progreso');
+      if (isAnimating) return Promise.reject('Animación en progreso');
 
     isAnimating = true;
 
