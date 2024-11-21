@@ -60,9 +60,14 @@ const getWord = async () => {
  */
 const savePlayWord = async (id) => {
     try {
+
+        // tomar el valor de intento, del localStorage
+        let intento = JSON.parse(localStorage.getItem('intento')) ? JSON.parse(localStorage.getItem('intento')) : 0;
+        console.log(intento)
         saveStorageWords(id);
         let response = await FetchData('http://localhost/ahorcados_minijuego/word/addPlay', 'POST', {
-            id: id
+            id: id,
+            intento: intento
         });
 
 
@@ -70,6 +75,7 @@ const savePlayWord = async (id) => {
             throw new Error(response.error);
         }
 
+        cleanAttempts();
         getScore();
         
     } catch (error) {

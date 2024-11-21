@@ -186,7 +186,7 @@ async function verifyRightAnswer(wordVal) {
           isProcessing = true; // Indicar que se está procesando
           showSuccessAnimation();
           removeGameAndIndiceHidden();
-          cleanAttempts();
+          
           // Validamos si hay un usuario iniciado 
           if (localStorage.getItem('logged')) {
             let wordLocal = JSON.parse(localStorage.getItem('words')) || [];

@@ -74,12 +74,10 @@ class WordController
         // Crear un modelo de palabra con el ID recibido
         $wordModel = new wordModel();
         $wordModel->setId($data['id']);
+        $wordModel->setIntento($data['intento']);
 
         // Intentamos insertar la jugada (palabra) en la base de datos
         $response = $this->wordRepository->addPlay($wordModel);
-
-        // Registrar la respuesta en los logs para depuración
-        error_log(json_encode($response));
 
         // Si la jugada se guarda correctamente, respondemos con un mensaje de éxito
         if ($response)

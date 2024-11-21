@@ -110,10 +110,11 @@ class WordRepository implements WordInterface
 
         try {
             // Prepara la consulta SQL para insertar una jugada
-            $sql = "INSERT INTO jugadas (puntaje, id_palabra, id_usuario) VALUES (10, :id_palabra, :id_usuario)";
+            $sql = "INSERT INTO jugadas (puntaje,intento, id_palabra, id_usuario) VALUES (10,:intento ,:id_palabra, :id_usuario)";
             $stmt = $this->db->prepare($sql);
             
             // Vincula los parámetros
+            $stmt->bindParam(':intento', $wordModel->getIntento());
             $stmt->bindParam(':id_palabra', $wordModel->getId());
             $stmt->bindParam(':id_usuario', $userId);
             
