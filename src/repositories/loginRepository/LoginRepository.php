@@ -13,6 +13,23 @@ class LoginRepository extends Model {
         parent::__construct();
     }
 
+    // validar usuario
+    public function auth(UserModel $user)
+    {
+        try {
+            $sql = "SELECT id, contrasena FROM usuarios WHERE correo = :email";
+            $stmt = $this->prepare($sql);
+            $email = $user->getEmail();
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $user;
+        } catch (PDOException $th) {
+            error_log("Auth::" . $th->getMessage());
+            return false;
+        }
+    }
+
     // Agregar usuario a la base de datos
     public function registerUser(UserModel $user) {
         try {

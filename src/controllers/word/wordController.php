@@ -3,6 +3,7 @@
 namespace Jay\controllers\word;
 
 use Jay\core\Database;
+use Jay\models\wordModel\wordModel;
 use Jay\repositories\wordRepository\WordRepository;
 
 class WordController
@@ -25,5 +26,30 @@ class WordController
         $total = $this->wordRepository->getMaximumNumberOfRows();
         
         echo json_encode([$word, $total]);
+    }
+
+    // guardamos la palabra
+    public function addPlay()
+    {
+        // Leer el cuerpo de la solicitud
+        $json = file_get_contents('php://input');
+
+        // Decodificar JSON a un array asociativo
+        $data = json_decode($json, true);
+
+        $wordModel = new wordModel();
+        $wordModel->setId($data['id']);
+
+        // Insertar la palabra en la base de datos
+        $response = $this->wordRepository->addPlay($wordModel);
+
+        if($response)
+        {
+            echo json_encode(['success' => 'Jugada guardada']);
+        }
+        else
+        {
+            echo json_encode(['error' => 'Error al guardar la jugada']);
+        }
     }
 }

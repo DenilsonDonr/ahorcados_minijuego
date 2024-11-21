@@ -67,8 +67,6 @@ function buildWordSecret() {
   if (firstEditableInput) {
     firstEditableInput.focus();
   }
-  console.log('Inputs de letras construidos en el DOM');
-
 }
 
 // Referencia al DOM, para recorrer la clase de las etiquetas IMG
@@ -224,10 +222,20 @@ async function verifyRightAnswer(wordVal) {
 
   if (isCompletedAll) {
       let word = palabra.replace(/_/g, '');
+
       if (word === wordVal) {
           isProcessing = true; // Indicar que se está procesando
           showSuccessAnimation();
           removeGameAndIndiceHidden();
+          
+          // Validamos si hay un usuario iniciado 
+          if (localStorage.getItem('logged')) {
+            let wordLocal = JSON.parse(localStorage.getItem('words')) || [];
+            // obtener la ultima palabra del array
+            let lastWord = wordLocal[wordLocal.length - 1];
+            // Guardamos la juega de la palabra
+            savePlayWord(lastWord)
+          }
 
           try {
               await animateSectionOut(); // Esperar a que la animación de salida termine
@@ -238,7 +246,6 @@ async function verifyRightAnswer(wordVal) {
               console.error(error);
           } finally {
               isProcessing = false; // Resetear la bandera
-              console.log('Proceso de verificación completado');
           }
       } else {
           showErrorAnimation();

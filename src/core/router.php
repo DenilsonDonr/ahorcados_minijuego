@@ -33,16 +33,15 @@ $router->mount('/usuario/login', function () use ($router) {
     });
 
     # Authenticate, valida el usuario y password
-    $router->get('/authenticate', function () {
-        // session_start();
-        // $_SESSION['user'] = 'usuario'; // Simulación de inicio de sesión
-        echo "Has iniciado sesión. Ahora puedes acceder a la sección protegida.";
+    $router->post('/authenticate', function () {
+        $user = new LoginController();
+        $user->authenticateUser();
     });
 
     # Logout, cierra la sesion
     $router->get('/logout', function () {
-        // session_destroy();
-        echo 'logout';
+        $user = new LoginController();
+        $user->logout();
     });
 });
 
@@ -52,6 +51,10 @@ $router->mount('/word', function () use ($router) {
     $router->get('/getWord', function () {
         $word = new WordController();
         $word->getWord();
+    });
+    $router->post('/addaddPlay', function () {
+        $word = new WordController();
+        $word->addPlay();
     });
 });
 

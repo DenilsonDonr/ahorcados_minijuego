@@ -64,7 +64,16 @@
         <section class="section">
             <div class="card right-card top-card content-section-3-card">
                 <!-- Arcade Login Icon -->
-                <div class="arcade-login" id="arcadeLogin">Ingresa</div>
+                <?php
+                session_start();
+                $status = $_SESSION['status']; 
+                if(!$status) { 
+                ?>
+                    <div class="arcade-login" id="arcadeLogin">Ingresa</div>
+                <?php } else {?>
+                    <div class="arcade-login" id="arcadeLogout">Salir</div>
+                <?php } ?>
+
             </div>
             <input type="checkbox" id="music-toggle" class="music-toggle">
             <label for="music-toggle" class="music-label">🎵</label>
@@ -73,6 +82,7 @@
         </section>
     </div>
 
+    
     <!-- Modal -->
     <div id="loginModal" class="modal">
         <div class="modal-content" id="modalContent">
@@ -82,9 +92,9 @@
             <div id="loginSection" class="section-active">
                 <h2>¡Inicia Sesión!</h2>
                 <p>Ingresa tus datos para continuar.</p>
-                <form>
-                    <input type="text" placeholder="Usuario" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
-                    <input type="password" placeholder="Contraseña" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                <form id="registerAuth" method="post">
+                    <input type="text" placeholder="Usuario" name="email" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
+                    <input type="password" placeholder="Contraseña" name="password" style="display: block; margin: 10px auto; padding: 10px; width: 80%;">
                     <button id="btn-login" class="btn-arcade">Ingresar</button>
                 </form>
                 <p>¿No tienes cuenta? <button class="btn-arcade" id="switchToRegister">Regístrate</button></p>
@@ -105,7 +115,7 @@
             </div>
         </div>
     </div>
-
+    
     <script src="public/assets/js/animation.js"></script>
     <script src="public/assets/js/juego.js"></script>
     <script src="public/assets/js/general.js"></script>

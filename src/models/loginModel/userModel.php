@@ -34,6 +34,11 @@ class UserModel {
     }    
 
 
+    // validar hash
+    public function verifyPassword($hash) {
+        return (password_verify($this->getPassword(), $hash));
+    }
+
     // teste de toString
     public function __toString()
     {

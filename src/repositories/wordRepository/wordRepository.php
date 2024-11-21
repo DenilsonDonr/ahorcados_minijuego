@@ -54,4 +54,18 @@ class WordRepository implements WordInterface {
         // Devolvemos el número total de palabras
         return $row['total'];
     }
+
+    // insertamos la jugada
+    public function addPlay($wordModel) {
+        session_start();
+        // Obtener el ID del usuario desde la sesión
+        $userId = $_SESSION['id'];
+
+        // Insertamos la jugada en la base de datos
+        $sql = "INSERT INTO jugadas (id_palabra, id_usuario) VALUES (:id_palabra, :id_usuario)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id_palabra', $wordModel->getId());
+        $stmt->bindParam(':id_usuario', $userId);
+        $stmt->execute();
+    }
 }

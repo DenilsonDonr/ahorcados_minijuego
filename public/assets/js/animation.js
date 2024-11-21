@@ -36,12 +36,15 @@ musicToggle.addEventListener("change", () => {
     }
 });
 
+
   // Abrir el modal de inicio de sesion
-  loginBtn.onclick = function () {
-    modal.style.display = "block";
-    loginSection.classList.add("opacidad-modal");
-    modalContent.classList.remove("close-animation"); // Quitar cualquier animacion de cierre previa
-  };
+  if (loginBtn) {
+    loginBtn.onclick = function () {
+      modal.style.display = "block";
+      loginSection.classList.add("opacidad-modal");
+      modalContent.classList.remove("close-animation"); // Quitar cualquier animacion de cierre previa
+    };
+  }
 
   // Iniciar el juego y mover el boton
   btnPlay.onclick = function () {
@@ -384,7 +387,7 @@ function playAudio(audioFile) {
 function playBackgroundMusic(audioFile) {
   const audio = new Audio(audioFile);
   audio.loop = true;
-  audio.volume = 0.2;
+  audio.volume = 0.1;
   audio
     .play()
     .catch((error) => console.error("Error al reproducir música:", error));

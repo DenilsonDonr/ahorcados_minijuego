@@ -64,14 +64,13 @@ CREATE TABLE palabras (
 CREATE TABLE jugadas(
     id_jugada INT PRIMARY KEY AUTO_INCREMENT,
     intento SMALLINT NOT NULL DEFAULT 0,
-    fecha_inicio DATETIME NOT NULL DEFAULT NOW(),
-    hora TIME NOT NULL,
+    puntaje int null,
     estado INT,
+	create_at DATETIME NOT NULL DEFAULT NOW(),
     id_palabra INT NOT NULL,
     id_usuario INT NOT NULL,
     CONSTRAINT id_palabra_fk_jugadas FOREIGN KEY (id_palabra) REFERENCES palabras(id_palabra),
     CONSTRAINT id_usuario_fk_jugadas FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
-
 
 SELECT palabra, json_images FROM palabras ORDER BY RAND() LIMIT 1

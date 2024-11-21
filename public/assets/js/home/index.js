@@ -11,7 +11,10 @@ const getWord = async () => {
             if (localStorage.getItem('words')) {
                 let status = verifyMaxRowWidthMaxArrayWords();
                 if (status) {
-                    localStorage.clear();
+                    localStorage.removeItem('game');
+                    localStorage.removeItem('indice_hidden');
+                    localStorage.removeItem('rows');
+                    localStorage.removeItem('words');
                 }
             }
 
@@ -37,7 +40,27 @@ const getWord = async () => {
     }
 };
 
+const savePlayWord = async (id) => {
+    try {
+        saveStorageWords(id);
+        let response = await FetchData('http://localhost/ahorcados_minijuego/word/addaddPlay', 'POST', {
+            id: id
+        });
 
+        if (!response) {
+            throw new Error('No se pudo obtener la palabra');
+        }
+
+        if(!response.success) {
+            throw new Error(response.error);
+        }
+
+        console.log(response);
+        
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 function saveStorageGame(response)
 {
@@ -45,8 +68,6 @@ function saveStorageGame(response)
     let game = {palabra: response.palabra, imagenes : response.imagenes}
     localStorage.setItem('game', JSON.stringify(game));
 }
-
-
 
 function saveStorageWords(id) {
     // Remover el juego y el índice oculto
@@ -71,14 +92,12 @@ function saveStorageWords(id) {
     // Si ya está, no hacer nada; getWord manejará la obtención de una nueva palabra
 }
 
-
 function saveStorageRows(rows) {
     // Solo lo guardamos si no existe ya en el localStorage
     if (!localStorage.getItem('rows')) {
         localStorage.setItem('rows', JSON.stringify(rows));
     }
 }
-
 
 function verifyMaxRowWidthMaxArrayWords() {
     let words = JSON.parse(localStorage.getItem('words'));
